@@ -2,20 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace Modules\User\Models;
 
 use Carbon\CarbonInterface;
-use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Modules\Base\Traits\HasDateTimeCast;
+use Modules\User\Database\Factories\UserFactory;
+use Modules\User\Enums\Gender;
+use Modules\User\Enums\Role;
+use Modules\User\Enums\UserStatus;
 
 /**
  * @property-read int $id
  * @property-read string $name
  * @property-read string $email
  * @property-read CarbonInterface|null $email_verified_at
+ * @property-read string $mobile
+ * @property-read Role $role
+ * @property-read UserStatus $status
+ * @property-read CarbonInterface|null $birthday
+ * @property-read Gender|null $gender
  * @property-read string $password
  * @property-read string|null $remember_token
  * @property-read CarbonInterface $created_at
@@ -23,6 +33,9 @@ use Illuminate\Notifications\Notifiable;
  */
 final class User extends Authenticatable implements MustVerifyEmail
 {
+    use HasApiTokens;
+    use HasDateTimeCast;
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -41,13 +54,27 @@ final class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'id' => 'integer',
-            'name' => 'string',
+            'mobile' => 'string',
             'email' => 'string',
             'email_verified_at' => 'datetime',
+            'role' => Role::class,
+            'status' => UserStatus::class,
+            'birthday' => 'date:Y-m-d',
+            'gender' => Gender::class,
             'password' => 'hashed',
             'remember_token' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === Role::ADMIN;
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === Role::USER;
     }
 }

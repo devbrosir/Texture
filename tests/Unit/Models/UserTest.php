@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
+use Modules\User\Models\User;
 
 test('to array', function (): void {
     $user = User::factory()->create()->refresh();
@@ -13,6 +13,11 @@ test('to array', function (): void {
             'name',
             'email',
             'email_verified_at',
+            'mobile',
+            'role',
+            'status',
+            'birthday',
+            'gender',
             'created_at',
             'updated_at',
         ]);

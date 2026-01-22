@@ -11,12 +11,17 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\Providers\AuthModuleServiceProvider;
+use Modules\Base\Providers\BaseModuleServiceProvider;
+use Modules\User\Providers\UserModuleServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->register(BaseModuleServiceProvider::class);
+        $this->app->register(AuthModuleServiceProvider::class);
+        $this->app->register(UserModuleServiceProvider::class);
     }
 
     public function boot(): void
