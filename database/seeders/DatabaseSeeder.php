@@ -11,6 +11,6 @@ final class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        //
+        new AdminUserSeeder()->run();
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\User\Enums\UserStatus;
 
 return new class extends Migration
 {
@@ -17,10 +18,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('mobile')->nullable()->unique();
             $table->tinyInteger('role')->index();
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(UserStatus::ACTIVE->value);
             $table->date('birthday')->nullable();
             $table->tinyInteger('gender')->nullable();
             $table->string('password');
+            $table->string('remember_token')->nullable();
             $table->timestamps();
 
             $table->index(['email', 'mobile']);
