@@ -15,7 +15,7 @@ use Modules\User\Models\User;
 
 use function Pest\Laravel\postJson;
 
-it('sends otp for password reset successfully', function () {
+it('sends otp for password reset successfully', function (): void {
     $user = User::factory()->create(['mobile' => '09123456789']);
 
     Authenticator::shouldReceive('sendOtpToUser')
@@ -27,13 +27,13 @@ it('sends otp for password reset successfully', function () {
     ])->assertOk();
 });
 
-it('returns 422 if user not found during forget password', function () {
+it('returns 422 if user not found during forget password', function (): void {
     postJson('/api/v1/auth/forget-pass-send-otp', [
         'mobile' => '09990000000',
     ])->assertStatus(422);
 });
 
-it('returns 429 when forget password otp is rate limited', function () {
+it('returns 429 when forget password otp is rate limited', function (): void {
     $user = User::factory()->create(['mobile' => '09123456789']);
 
     Authenticator::shouldReceive('sendOtpToUser')
@@ -45,7 +45,7 @@ it('returns 429 when forget password otp is rate limited', function () {
     ])->assertStatus(429);
 });
 
-it('resets password successfully with valid otp', function () {
+it('resets password successfully with valid otp', function (): void {
     $user = User::factory()->create([
         'mobile' => '09123456789',
         'password' => Hash::make('old_password'),
@@ -76,7 +76,7 @@ it('resets password successfully with valid otp', function () {
     expect(Hash::check('new_password_123', $user->password))->toBeTrue();
 });
 
-it('fails to reset password with invalid otp', function () {
+it('fails to reset password with invalid otp', function (): void {
     Authenticator::shouldReceive('verifyOtp')
         ->once()
         ->andThrow(new InvalidOtpException());
