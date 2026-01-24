@@ -37,7 +37,8 @@ foreach ($moduleNames as $moduleName) {
     $ignoreFinalList[] = "$moduleName\Rules";
 }
 
-arch()->preset()->php();
+arch()->preset()->php()
+    ->ignoring("App\Filament"); // can use translate strings to remove this ignore
 // not make services final to easy mocking for test
 arch()->preset()->strict()->ignoring($ignoreFinalList);
 // strict ignored list

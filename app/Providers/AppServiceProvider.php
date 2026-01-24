@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Providers\AuthModuleServiceProvider;
 use Modules\Base\Providers\BaseModuleServiceProvider;
+use Modules\Upload\Providers\UploadModuleServiceProvider;
 use Modules\User\Providers\UserModuleServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->register(BaseModuleServiceProvider::class);
         $this->app->register(AuthModuleServiceProvider::class);
         $this->app->register(UserModuleServiceProvider::class);
+        $this->app->register(UploadModuleServiceProvider::class);
     }
 
     public function boot(): void
@@ -46,14 +48,18 @@ final class AppServiceProvider extends ServiceProvider
     private function bootFactoryDirectoryStructure(): void
     {
         // Say Laravel to resolve Module models to their factories
-        Factory::guessFactoryNamesUsing(fn (string $modelName) =>
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            if (str_starts_with($modelName, 'App\\')) {
+                return 'Database\\Factories\\'.class_basename($modelName).'Factory';
+            }
+
             // Convert: Modules\User\Models\User
             // To:      Modules\User\database\Factories\UserFactory
-            str_replace(
+            return str_replace(
                 ['\\Models\\', '\\Models'],
                 ['\\Database\\factories\\', '\\Database\\factories'],
                 $modelName
-            ).'Factory');
-
+            ).'Factory';
+        });
     }
 }

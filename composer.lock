@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50b4ee050208aafbb9d0ce058d0005bb",
+    "content-hash": "88f2fc2a6925105849e055da35ba3117",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2316,6 +2316,71 @@
                 }
             ],
             "time": "2025-03-09T13:03:20+00:00"
+        },
+        {
+            "name": "hesamrad/laravel-api-debugger",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hesamzakerirad/laravel-api-debugger.git",
+                "reference": "925e0519ef4b760c60e627517c26e549e52e5dd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://mirror-composer.runflare.com/repos/hesamzakerirad/laravel-api-debugger/zipball/925e0519ef4b760c60e627517c26e549e52e5dd1",
+                "reference": "925e0519ef4b760c60e627517c26e549e52e5dd1",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "illuminate/database": "^8.69 || ^9.27 || ^10.0 || ^11.0 || ^12.0",
+                "illuminate/support": "^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.0",
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "HesamRad\\Debugger\\DebuggerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "HesamRad\\Debugger\\": "src"
+                }
+            },
+            "notification-url": "https://mirror-composer.runflare.com/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hesam Rad",
+                    "email": "hesamzakerirad@gmail.com",
+                    "homepage": "https://hesamrad.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel package to ease the process of debugging JSON APIs.",
+            "homepage": "https://github.com/hesamzakerirad/laravel-api-debugger",
+            "keywords": [
+                "api",
+                "debugger",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/hesamzakerirad/laravel-api-debugger/issues",
+                "source": "https://github.com/hesamzakerirad/laravel-api-debugger/tree/v1.0.3"
+            },
+            "time": "2025-06-12T12:40:15+00:00"
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
@@ -14317,7 +14382,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.4.0"
+        "php": "^8.4.0",
+        "ext-fileinfo": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
