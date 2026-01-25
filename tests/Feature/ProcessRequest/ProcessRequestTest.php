@@ -39,7 +39,6 @@ it('stores a new process request successfully', function (): void {
 
     withUser($user)
         ->postJson('/api/v1/requests', $data)
-        ->dump()
         ->assertJsonStructure([
             'data' => [
                 'description', 'images', 'user_id',
