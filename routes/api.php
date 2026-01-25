@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProcessRequestController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Http\Middleware\SanctumMiddleware;
 
@@ -19,4 +20,7 @@ Route::prefix('v1')->group(function (): void {
 
     // Banners
     Route::get('banners', [BannerController::class, 'index'])->name('banners.index');
+
+    // Settings
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
 });
