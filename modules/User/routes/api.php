@@ -15,6 +15,8 @@ Route::prefix('v1')->group(function () {
         Route::post('verify-register', [RegisterController::class, 'verify'])->name('verify-register');
 
         Route::post('login', [LoginController::class, 'passwordLogin'])->name('login');
+        // WordPress login
+        Route::post('wp-login', [LoginController::class, 'wordpressLogin'])->name('wp-login');
 
         Route::post('send-otp', [LoginController::class, 'sendOtp'])->name('send-otp');
         Route::post('verify', [LoginController::class, 'verify'])->name('verify');

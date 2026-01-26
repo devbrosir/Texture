@@ -24,6 +24,7 @@ use Modules\User\Enums\UserStatus;
  * @property-read string $mobile
  * @property-read Role $role
  * @property-read UserStatus $status
+ * @property-read int|null $wp_id
  * @property-read CarbonInterface|null $birthday
  * @property-read Gender|null $gender
  * @property-read string $password

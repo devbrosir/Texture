@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Http;
 use Modules\Auth\Enums\OtpChannel;
 use Modules\Auth\Exceptions\InvalidOtpException;
 use Modules\Auth\Exceptions\OtpRateLimitException;
@@ -101,4 +102,31 @@ it('returns 401 when login credentials are invalid', function (): void {
         'mobile' => '09123456789',
         'password' => '654321',
     ])->assertUnauthorized();
+});
+
+it('login via wordpress', function (): void {
+    Http::fake([
+        env('WP_URL').'/wp-json/sso/v1/verify' => Http::response([
+            'success' => true,
+            'data' => [
+                'id' => 12,
+                'email' => 'test@example.com',
+                'name' => 'ali',
+                'first_name' => 'Ali',
+                'last_name' => 'Alavi',
+                'display_name' => 'TestUser',
+                'username' => 'alo123',
+            ],
+        ]),
+    ]);
+
+    $this->postJson('/api/v1/auth/wp-login', [
+        'token' => 'fake-temp-token',
+    ])->assertOk();
+
+    $this->assertDatabaseHas('users', [
+        'wp_id' => 12,
+        'email' => 'test@example.com',
+    ]);
+
 });

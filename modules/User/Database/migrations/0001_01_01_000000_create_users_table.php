@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('mobile')->nullable()->unique();
             $table->tinyInteger('role')->index();
             $table->tinyInteger('status')->default(UserStatus::ACTIVE->value);
+            $table->unsignedBigInteger('wp_id')->nullable();
             $table->date('birthday')->nullable();
             $table->tinyInteger('gender')->nullable();
             $table->string('password');

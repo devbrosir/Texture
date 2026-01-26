@@ -16,6 +16,7 @@ test('to array', function (): void {
             'mobile',
             'role',
             'status',
+            'wp_id',
             'birthday',
             'gender',
             'created_at',
