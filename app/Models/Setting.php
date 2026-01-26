@@ -27,11 +27,27 @@ final class Setting extends Model implements HasMedia
 
     use InteractsWithMedia;
 
+    public static function updateValue(array $data, string $key): void
+    {
+        self::query()->updateOrCreate(
+            ['key' => $key],
+            [
+                'key' => $key,
+                'show' => false,
+                'value' => json_encode($data),
+            ]);
+    }
+
+    public static function get(string $key): array
+    {
+        return self::query()->where('key', $key)->first()?->value ?? [];
+    }
+
     public function value(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $this->decodeIfJson($value),
-            set: fn ($value) => $this->encodeIfArray($value),
+            set: fn ($value): mixed => $this->encodeIfArray($value),
         );
     }
 
@@ -53,21 +69,5 @@ final class Setting extends Model implements HasMedia
         }
 
         return $value;
-    }
-
-    public static function updateValue(array $data, string $key): void
-    {
-        self::query()->updateOrCreate(
-            ['key' => $key],
-            [
-                'key' => $key,
-                'show' => false,
-                'value' => json_encode($data),
-            ]);
-    }
-
-    public static function get(string $key): array
-    {
-        return self::query()->where('key', $key)->first()?->value ?? [];
     }
 }

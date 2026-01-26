@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Settings\Schemas;
 
 use Filament\Forms\Components\CodeEditor;
@@ -9,7 +11,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Group;
 
-class SeoModalForm
+final class SeoModalForm
 {
     public static function scheme(): array
     {

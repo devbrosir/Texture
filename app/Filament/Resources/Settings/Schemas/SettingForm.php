@@ -21,7 +21,7 @@ final class SettingForm
                 TextInput::make('key')->label('کلید')
                     ->required()->readOnlyOn('edit'),
                 Group::make()
-                    ->schema(function ($record) {
+                    ->schema(function ($record): array {
 
                         if (! $record) {
                             return [
@@ -46,7 +46,7 @@ final class SettingForm
                                             ->required(),
                                     ])
                                     ->default(array_map(
-                                        fn ($v, $k) => ['key' => $k, 'value' => $v],
+                                        fn ($v, $k): array => ['key' => $k, 'value' => $v],
                                         $value,
                                         array_keys($value)
                                     )),

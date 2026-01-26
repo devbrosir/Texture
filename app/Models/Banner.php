@@ -25,6 +25,7 @@ final class Banner extends Model implements HasMedia
 
     /** @use HasFactory<BannerFactory> */
     use HasFactory;
+
     use InteractsWithMedia;
 
     public const string IMAGE = 'image';

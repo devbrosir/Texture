@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Settings;
 
 use App\Filament\Resources\Settings\Pages\CreateSetting;
@@ -23,6 +25,7 @@ final class SettingResource extends Resource
     public static ?string $recordTitleAttribute = 'title';
 
     public static ?string $modelLabel = 'تنظیمات';
+
     public static ?string $pluralModelLabel = 'تنظیمات';
 
     public static function form(Schema $schema): Schema

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Setting;
@@ -27,6 +29,7 @@ final class SettingFactory extends Factory
     private function setting(): int|bool|string
     {
         $rnd = $this->faker->numberBetween(1, 3);
+
         return match ($rnd) {
             1 => $this->faker->numberBetween(0, 100),
             2 => $this->faker->boolean(),
@@ -42,6 +45,7 @@ final class SettingFactory extends Factory
             $key = $this->faker->word();
             $setting[$key] = $this->setting();
         }
+
         return $setting;
     }
 }
