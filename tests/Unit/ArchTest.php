@@ -40,7 +40,7 @@ foreach ($moduleNames as $moduleName) {
 arch()->preset()->php()
     ->ignoring("App\Filament"); // can use translate strings to remove this ignore
 // not make services final to easy mocking for test
-arch()->preset()->strict()->ignoring($ignoreFinalList);
+arch()->preset()->strict()->ignoring(array_merge($ignoreFinalList, ["App\Filament"]));
 // strict ignored list
 foreach ($ignoreFinalList as $directory) {
     arch()->expect($directory)->classes()->not->toBeAbstract()

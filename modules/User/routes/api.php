@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\SceneController;
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Http\Middleware\SanctumMiddleware;
 use Modules\User\Http\Controllers\Api\v1\Auth\ForgetPassController;
@@ -24,6 +25,8 @@ Route::prefix('v1')->group(function () {
         Route::post('forget-pass-send-otp', [ForgetPassController::class, 'sendOtp'])->name('forget-pass-send-otp');
         Route::post('reset-pass', [ForgetPassController::class, 'resetPass'])->name('reset-pass');
     });
+
+    Route::resource('scenes', SceneController::class)->only(['index', 'show']);
 
     Route::middleware(SanctumMiddleware::class)->group(function () {
         Route::prefix('profile')->group(function (): void {
