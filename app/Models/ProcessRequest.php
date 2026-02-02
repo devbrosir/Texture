@@ -61,7 +61,7 @@ final class ProcessRequest extends BaseModel implements HasMedia
         return $this->user_id === ($user->id ?? $user ?? auth()->id());
     }
 
-    public function images(): Attribute
+    protected function images(): Attribute
     {
         return Attribute::get(fn (): MediaCollection => $this->getMedia(self::IMAGES));
     }

@@ -40,7 +40,7 @@ final class Setting extends BaseModel implements HasMedia
         return self::query()->where('key', $key)->first()?->value ?? [];
     }
 
-    public function value(): Attribute
+    protected function value(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $this->decodeIfJson($value),

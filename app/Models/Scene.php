@@ -45,7 +45,7 @@ final class Scene extends BaseModel implements HasMedia
         return $this->hasMany(Part::class);
     }
 
-    public function image(): Attribute
+    protected function image(): Attribute
     {
         return new Attribute(get: fn () => $this->getFirstMedia(self::IMAGE)?->original_url);
     }

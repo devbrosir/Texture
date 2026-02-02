@@ -20,7 +20,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 final class Banner extends BaseModel implements HasMedia
 {
-
     /** @use HasFactory<BannerFactory> */
     use HasFactory;
 
@@ -32,7 +31,7 @@ final class Banner extends BaseModel implements HasMedia
 
     public $hidden = ['media', 'created_at', 'updated_at'];
 
-    public function image(): Attribute
+    protected function image(): Attribute
     {
         return Attribute::make(fn () => $this->getFirstMedia(self::IMAGE)?->original_url);
     }

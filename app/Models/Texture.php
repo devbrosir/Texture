@@ -33,7 +33,7 @@ final class Texture extends BaseModel implements HasMedia
         return $this->belongsTo(Part::class);
     }
 
-    public function image(): Attribute
+    protected function image(): Attribute
     {
         return new Attribute(get: fn () => $this->getFirstMedia(self::TEXTURE)?->original_url);
     }
