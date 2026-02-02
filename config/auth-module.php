@@ -12,6 +12,12 @@ return [
         'length' => 6,
         'expire' => 300, // seconds
         'retry_after' => 60, // retry send after seconds
+        'sms' => [
+            'driver' => 'smsir',
+            'template' => '877330',
+            'number' => env('SMSIR_NUMBER'),
+            'text' => '',
+        ],
     ],
 
     // Token settings

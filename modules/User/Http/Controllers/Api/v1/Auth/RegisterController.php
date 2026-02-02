@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Modules\Auth\Enums\OtpChannel;
 use Modules\Auth\Exceptions\InvalidOtpException;
 use Modules\Auth\Exceptions\OtpRateLimitException;
+use Modules\Auth\Exceptions\OtpSendException;
 use Modules\Auth\Facades\Authenticator;
 use Modules\User\Http\Requests\Auth\RegisterRequest;
 use Modules\User\Http\Requests\Auth\VerifyRegisterRequest;
@@ -24,6 +25,8 @@ final class RegisterController
             ]);
         } catch (OtpRateLimitException) {
             abort(429, __('OTP Retried too Soon'));
+        } catch (OtpSendException) {
+            abort(400, __('OTP Sending Failed'));
         }
     }
 

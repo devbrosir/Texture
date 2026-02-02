@@ -9,6 +9,8 @@ $baseModules = [
     'App' => [],
     'Modules\Base' => [],
     'Modules\Auth' => [],
+    'Modules\Sms' => [],
+    'Modules\Upload' => [],
 ];
 
 $appModules = [
@@ -29,25 +31,14 @@ foreach ($modules as &$moduleExceptions) {
     }
 }
 
-$moduleNames = collect($modules)->keys();
-$ignoreFinalList = [];
-foreach ($moduleNames as $moduleName) {
-    $ignoreFinalList[] = "$moduleName\Services";
-    $ignoreFinalList[] = "$moduleName\Support";
-    $ignoreFinalList[] = "$moduleName\Rules";
-}
-
+arch()->preset()->security();
 arch()->preset()->php()
     ->ignoring("App\Filament"); // can use translate strings to remove this ignore
-// not make services final to easy mocking for test
-arch()->preset()->strict()->ignoring(array_merge($ignoreFinalList, ["App\Filament"]));
-// strict ignored list
-foreach ($ignoreFinalList as $directory) {
-    arch()->expect($directory)->classes()->not->toBeAbstract()
-        ->and($directory)->toUseStrictTypes()
-        ->and($directory)->toUseStrictEquality();
+$moduleNames = collect($modules)->keys();
+foreach ($moduleNames as $module) {
+    arch()->expect($module)->toUseStrictTypes()
+        ->and($module)->toUseStrictEquality();
 }
-arch()->preset()->security();
 
 arch('controllers')
     ->expect('App\Http\Controllers')
@@ -69,6 +60,7 @@ describe('Module isolation', function () use ($modules): void {
                 AppServiceProvider::class,
                 $otherModule.'\Contracts',
                 $otherModule.'\Services',
+                $otherModule.'\Facades',
                 $otherModule.'\Events',
                 $otherModule.'\Models',
             ]);

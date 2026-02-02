@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Modules\Auth\Enums\OtpChannel;
 use Modules\Auth\Exceptions\InvalidOtpException;
 use Modules\Auth\Exceptions\OtpRateLimitException;
+use Modules\Auth\Exceptions\OtpSendException;
 use Modules\Auth\Facades\Authenticator;
 use Modules\Auth\Services\AuthUserService;
 use Modules\User\Http\Requests\Auth\ResetPassRequest;
@@ -27,6 +28,8 @@ final class ForgetPassController
             Authenticator::sendOtpToUser(OtpChannel::SMS, $user);
         } catch (OtpRateLimitException) {
             abort(429, __('OTP Retried too Soon'));
+        } catch (OtpSendException) {
+            abort(400, __('OTP Sending Failed'));
         }
     }
 
