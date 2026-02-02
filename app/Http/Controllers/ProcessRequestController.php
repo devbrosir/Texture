@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActivityType;
 use App\Enums\RequestStatus;
+use App\Facades\ActivityLogger;
 use App\Http\Requests\StoreProcessRequestRequest;
 use App\Models\ProcessRequest;
 use App\Services\ProcessRequestService;
@@ -26,5 +28,6 @@ final class ProcessRequestController
     {
         abort_unless($processRequest->ownedBy(), 404);
         $processRequest->update(['status' => RequestStatus::CANCELED]);
+        ActivityLogger::log(ActivityType::CANCEL_REQUEST, $processRequest);
     }
 }

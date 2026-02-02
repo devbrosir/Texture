@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Controllers\Api\v1\Auth;
 
+use App\Enums\ActivityType;
+use App\Facades\ActivityLogger;
 use Illuminate\Support\Arr;
 use Modules\Auth\Enums\OtpChannel;
 use Modules\Auth\Exceptions\InvalidOtpException;
@@ -40,6 +42,7 @@ final class RegisterController
 
         $user = $registrationService->verifyRegistration($request->validated(), $otp);
         $otp->update(['extra' => Arr::except($otp->extra, 'password')]);
+        ActivityLogger::log(ActivityType::REGISTER, $user, $user->id);
 
         return Authenticator::loginUserAndIssueToken($user->refresh());
     }

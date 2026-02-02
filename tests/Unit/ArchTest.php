@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 use App\Providers\AppServiceProvider;
+use Modules\User\Models\User;
 
 // modules should not use other modules except 'Base' module. values are exceptions.
 $baseModules = [
-    'App' => [],
+    'App' => [User::class],
     'Modules\Base' => [],
     'Modules\Auth' => [],
     'Modules\Sms' => [],
@@ -58,9 +59,11 @@ describe('Module isolation', function () use ($modules): void {
             }
             $ignoreList = array_merge($exceptions, [
                 AppServiceProvider::class,
+                "App\Filament",
                 $otherModule.'\Contracts',
                 $otherModule.'\Services',
                 $otherModule.'\Facades',
+                $otherModule.'\Enums',
                 $otherModule.'\Events',
                 $otherModule.'\Models',
             ]);

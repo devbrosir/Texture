@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\ActivityType;
+use App\Facades\ActivityLogger;
 use App\Models\ProcessRequest;
 use Illuminate\Support\Facades\DB;
 use Modules\Upload\Services\FileService;
@@ -17,6 +19,7 @@ class ProcessRequestService
             $processRequest = ProcessRequest::query()->create($fields);
             new FileService()->assignFiles($images, $processRequest, ProcessRequest::IMAGES);
         });
+        ActivityLogger::log(ActivityType::SEND_REQUEST, $processRequest);
 
         return $processRequest->refresh()->append('images');
     }
