@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\User\Models;
 
 use Carbon\CarbonInterface;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -32,7 +34,7 @@ use Modules\User\Enums\UserStatus;
  * @property-read CarbonInterface $created_at
  * @property-read CarbonInterface $updated_at
  */
-final class User extends Authenticatable implements MustVerifyEmail
+final class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     use HasApiTokens;
     use HasDateTimeCast;
@@ -77,5 +79,10 @@ final class User extends Authenticatable implements MustVerifyEmail
     public function isUser(): bool
     {
         return $this->role === Role::USER;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isAdmin();
     }
 }

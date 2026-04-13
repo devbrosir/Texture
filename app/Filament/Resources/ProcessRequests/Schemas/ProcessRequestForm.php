@@ -6,10 +6,12 @@ namespace App\Filament\Resources\ProcessRequests\Schemas;
 
 use App\Enums\RequestStatus;
 use App\Models\ProcessRequest;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 
 final class ProcessRequestForm
 {
@@ -41,8 +43,17 @@ final class ProcessRequestForm
                     ->placeholder('-')
                     ->columnSpanFull(),
 
-                Select::make('status')->label('وضعیت')
-                    ->options(RequestStatus::toOptions()),
+                ToggleButtons::make('status')->label('وضعیت')
+                    ->inline()
+                    ->icons([
+                        RequestStatus::PENDING->value => Heroicon::ArrowPath,
+                        RequestStatus::COMPLETED->value => Heroicon::DocumentCheck,
+                        RequestStatus::CANCELED->value => Heroicon::XMark,
+                    ])->colors([
+                        RequestStatus::PENDING->value => Color::Orange,
+                        RequestStatus::COMPLETED->value => Color::Green,
+                        RequestStatus::CANCELED->value => Color::Red,
+                    ])->options(RequestStatus::toOptions()),
             ]);
     }
 }
