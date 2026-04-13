@@ -20,6 +20,7 @@ Route::prefix('v1')->group(function (): void {
             ->name('process-requests.cancel');
 
         Route::resource('scenes', SceneController::class)->only(['index', 'show']);
+        Route::put('scenes/{scene}/set-mask', [SceneController::class, 'setMaskData'])->name('scenes.set-mask-data');
 
         Route::post('activities', [ActivityController::class, 'batchStore'])->name('activity.batch-store');
     });

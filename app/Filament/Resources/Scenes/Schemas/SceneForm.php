@@ -56,7 +56,6 @@ final class SceneForm
                     ->orderColumn('created_at')
                     ->columnSpanFull()
                     ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
-                Textarea::make('mask')->label('mask')->columnSpanFull(),
             ]);
     }
 }
