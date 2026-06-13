@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->boolean('active')->default(true);
-            $table->foreignId('scene_id')->constrained();
+            $table->foreignId('scene_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('default_texture_id')->nullable()->constrained('textures')->nullOnDelete();
+            $table->json('mask_config')->nullable();
             $table->timestamps();
         });
     }

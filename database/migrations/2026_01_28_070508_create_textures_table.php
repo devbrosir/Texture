@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('textures', function (Blueprint $table): void {
             $table->id();
             $table->string('title')->nullable();
-            $table->foreignId('part_id')->constrained();
+            $table->integer('width');
+            $table->integer('height');
             $table->timestamps();
         });
     }

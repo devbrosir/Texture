@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('title');
             $table->json('tags')->nullable();
             $table->boolean('active')->default(true);
-            $table->json('mask')->nullable();
             $table->timestamps();
         });
     }

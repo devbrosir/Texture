@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SetMaskDataRequest;
 use App\Models\Part;
 use App\Models\Scene;
-use App\Services\SceneService;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 final class SceneController
@@ -30,11 +28,5 @@ final class SceneController
         $scene->parts->each(fn (Part $part) => $part->textures->makeHidden('media')->append('image'));
 
         return $scene;
-    }
-
-    public function setMaskData(Scene $scene, SetMaskDataRequest $request): Scene
-    {
-        $service = app(SceneService::class);
-        return $service->setMaskData($scene, $request->validated('data'));
     }
 }

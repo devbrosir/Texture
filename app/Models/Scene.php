@@ -37,7 +37,6 @@ final class Scene extends BaseModel implements HasMedia
     protected $casts = [
         'active' => 'boolean',
         'tags' => 'array',
-        'mask' => 'array',
     ];
 
     public function parts(): HasMany

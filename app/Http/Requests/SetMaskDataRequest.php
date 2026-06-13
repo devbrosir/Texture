@@ -25,7 +25,8 @@ final class SetMaskDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'data' => ['nullable', 'array'],
+            'mask_config' => ['nullable', 'array'],
+            'default_texture_id' => ['nullable', 'integer', 'exists:textures,id'],
         ];
     }
 }

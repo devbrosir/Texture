@@ -7,6 +7,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProcessRequestController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TextureController;
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Http\Middleware\SanctumMiddleware;
 
@@ -20,8 +21,7 @@ Route::prefix('v1')->group(function (): void {
             ->name('process-requests.cancel');
 
         Route::resource('scenes', SceneController::class)->only(['index', 'show']);
-        Route::put('scenes/{scene}/set-mask', [SceneController::class, 'setMaskData'])->name('scenes.set-mask-data');
-
+        Route::get('textures', [TextureController::class, 'index'])->name('textures.index');
         Route::post('activities', [ActivityController::class, 'batchStore'])->name('activity.batch-store');
     });
 

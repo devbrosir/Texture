@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Scenes;
 use App\Filament\Resources\Scenes\Pages\CreateScene;
 use App\Filament\Resources\Scenes\Pages\EditScene;
 use App\Filament\Resources\Scenes\Pages\ListScenes;
+use App\Filament\Resources\Scenes\RelationManagers\PartsRelationManager;
 use App\Filament\Resources\Scenes\Schemas\SceneForm;
 use App\Filament\Resources\Scenes\Tables\ScenesTable;
 use App\Models\Scene;
@@ -47,7 +48,7 @@ final class SceneResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PartsRelationManager::class,
         ];
     }
 

@@ -44,5 +44,4 @@ final class AppServiceProvider extends ServiceProvider
         Date::useClass(CarbonImmutable::class);
         DB::prohibitDestructiveCommands(App::isProduction());
     }
-
 }
