@@ -18,7 +18,7 @@ final class BannerForm
             ->components([
                 SpatieMediaLibraryFileUpload::make('image')->collection(Banner::IMAGE)
                     ->disk('public')
-                    ->maxSize(2048),
+                    ->maxSize(4096),
                 TextInput::make('link')->label('لینک')->url()->required(),
                 TextInput::make('delay')->label('تاخیر نمایش (ثانیه)')->numeric()->required(),
                 Checkbox::make('active')->label('فعال'),

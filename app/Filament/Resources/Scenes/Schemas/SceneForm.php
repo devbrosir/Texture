@@ -22,7 +22,7 @@ final class SceneForm
                 SpatieMediaLibraryFileUpload::make('image')->label('تصویر')
                     ->collection(Scene::IMAGE)
                     ->disk('public')
-                    ->maxSize(2048)
+                    ->maxSize(4096)
                     ->columnSpanFull(),
                 TextEntry::make('description')->hiddenLabel()
                     ->hiddenOn('edit')

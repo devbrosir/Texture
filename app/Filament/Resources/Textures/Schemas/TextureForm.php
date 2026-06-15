@@ -32,7 +32,7 @@ class TextureForm
                     ->uploadProgressIndicatorPosition('left bottom')
                     ->acceptedFileTypes(['image/*'])
                     ->disk('public')
-                    ->maxSize(2048),
+                    ->maxSize(4096),
             ]);
     }
 }

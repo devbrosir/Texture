@@ -59,7 +59,7 @@ class PartsRelationManager extends RelationManager
                     ->uploadProgressIndicatorPosition('left bottom')
                     ->acceptedFileTypes(['image/*'])
                     ->disk('public')
-                    ->maxSize(2048),
+                    ->maxSize(4096),
                 Select::make('default_texture_id')->label('تکسچر پیش فرض')
                     ->options(Texture::all()->pluck('title', 'id'))
                     ->relationship('defaultTexture', 'title')
