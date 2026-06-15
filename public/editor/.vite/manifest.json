@@ -1,0 +1,12 @@
+{
+  "src/main.ts": {
+    "file": "index.umd.js",
+    "name": "main",
+    "src": "src/main.ts",
+    "isEntry": true
+  },
+  "style.css": {
+    "file": "editor.css",
+    "src": "style.css"
+  }
+}

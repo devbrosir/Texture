@@ -4,7 +4,6 @@
     $part = new PartResource(Part::find(request('part_id')))->toArray(request());
 
     $manifest = json_decode(file_get_contents(public_path('editor/.vite/manifest.json')),true);
-    $entry = $manifest['src/main.js'];
 @endphp
 
 <div>
@@ -14,12 +13,8 @@
         ></div>
     </x-filament-panels::page>
 
-    @if(isset($entry['css']))
-        @foreach($entry['css'] as $css)
-            <link rel="stylesheet" href="{{ asset('editor/' . $css) }}">
-        @endforeach
-    @endif
-    <script type="module" src="{{ asset('editor/' . $entry['file']) }}"></script>
+    <link rel="stylesheet" href="{{ asset('editor/' . $manifest['style.css']['file']) }}">
+    <script type="module" src="{{ asset('editor/' . $manifest['src/main.ts']['file']) }}"></script>
 
     <script>
         function getTextures(page = 1) {
