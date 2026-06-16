@@ -18,7 +18,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read string $title
  * @property-read array $tags
  * @property-read bool $active
- * @property-read array $mask
  * @property-read Collection<Part> $parts
  * @property-read string $image
  * @property-read Carbon $created_at
@@ -46,6 +45,6 @@ final class Scene extends BaseModel implements HasMedia
 
     protected function image(): Attribute
     {
-        return new Attribute(get: fn () => $this->getFirstMedia(self::IMAGE)?->original_url);
+        return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::IMAGE));
     }
 }

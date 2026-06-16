@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SceneResource;
 use App\Models\Part;
 use App\Models\Scene;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 final class SceneController
 {
@@ -16,17 +17,15 @@ final class SceneController
         Part::addGlobalScope(fn ($query) => $query->where('active', true));
     }
 
-    public function index(): LengthAwarePaginator
+    public function index(): AnonymousResourceCollection
     {
-        return Scene::query()->withCount('parts')->paginate(20);
+        return SceneResource::collection(Scene::query()->withCount('parts')->paginate(20));
     }
 
-    public function show(Scene $scene): Scene
+    public function show(Scene $scene): SceneResource
     {
-        $scene->load('media', 'parts.textures.media')->makeHidden('media')
-            ->append('image');
-        $scene->parts->each(fn (Part $part) => $part->textures->makeHidden('media')->append('image'));
+        $scene->load('parts');
 
-        return $scene;
+        return new SceneResource($scene);
     }
 }

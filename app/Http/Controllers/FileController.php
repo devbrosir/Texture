@@ -16,6 +16,7 @@ final class FileController
 
         $headers = [
             'Cache-Control' => 'public, max-age=2592000, immutable',
+            'Access-Control-Allow-Origin' => '*',
         ];
 
         return Storage::disk('public')->response($path, null, $headers);
