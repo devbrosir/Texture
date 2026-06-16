@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\TextureController;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
+use Modules\Base\Http\Middleware\FormatApiResponse;
 
-Route::get('/', fn (): View => view('welcome'));
+Route::redirect('/', 'admin');
 
-Route::middleware('auth')->group(function (): void {
+Route::middleware('auth')->middleware(FormatApiResponse::class)->group(function (): void {
     Route::get('parts/{part}', [PartController::class, 'show'])->name('parts.show');
     Route::put('parts/{part}/set-mask', [PartController::class, 'setMaskData'])->name('parts.set-mask-data');
     Route::get('textures', [TextureController::class, 'index'])->name('textures.index');
 });
+
+Route::get('f/{uuid}/{name}', [FileController::class, 'show'])->name('files.show');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\PartController;
 use App\Http\Controllers\ProcessRequestController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SettingController;
@@ -24,6 +25,13 @@ Route::prefix('v1')->group(function (): void {
         Route::get('textures', [TextureController::class, 'index'])->name('textures.index');
         Route::post('activities', [ActivityController::class, 'batchStore'])->name('activity.batch-store');
     });
+
+    // Just for test
+    if (! app()->environment('production')) {
+        Route::get('parts/{part}', [PartController::class, 'show'])->name('parts.show');
+        Route::put('parts/{part}/set-mask', [PartController::class, 'setMaskData'])->name('parts.set-mask-data');
+        Route::get('textures', [TextureController::class, 'index'])->name('textures.index');
+    }
 
     // Banners
     Route::get('banners', [BannerController::class, 'index'])->name('banners.index');
