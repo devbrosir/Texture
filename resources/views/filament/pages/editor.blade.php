@@ -1,8 +1,4 @@
 @php
-    use App\Http\Resources\PartResource;
-    use App\Models\Part;
-    $part = new PartResource(Part::find(request('part_id')))->toArray(request());
-
     $manifest = json_decode(file_get_contents(public_path('editor/.vite/manifest.json')),true);
 @endphp
 
@@ -15,38 +11,4 @@
 
     <link rel="stylesheet" href="{{ asset('editor/' . $manifest['style.css']['file']) }}">
     <script type="module" src="{{ asset('editor/' . $manifest['src/main.ts']['file']) }}"></script>
-
-    <script>
-        function getTextures(page = 1) {
-            return fetch('/textures?page=' + page, {
-                headers: __headers(),
-            })
-        }
-
-        function getPart() {
-            return {{\Illuminate\Support\Js::from($part)}}
-        }
-
-        function setMaskConfig(config, defaultTextureId = null) {
-            return fetch('/parts/{{request('part_id')}}/set-mask', {
-                method: 'PUT',
-                headers: __headers(),
-                body: JSON.stringify({mask_config: config, default_texture_id: defaultTextureId}),
-            })
-        }
-
-        function __headers() {
-            return {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': __csrfToken(),
-            }
-        }
-
-        function __csrfToken() {
-            return document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-
-        window.Panel = {getTextures, getPart, setMaskConfig};
-    </script>
 </div>
