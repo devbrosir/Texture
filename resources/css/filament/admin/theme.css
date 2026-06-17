@@ -1,0 +1,10 @@
+@import '../../fonts/vazir.css';
+
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../vendor/wezlo/filament-grid-list/resources/views/**/*';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
