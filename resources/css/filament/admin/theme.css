@@ -1,6 +1,6 @@
-@import '../../fonts/vazir.css';
+@import "../../fonts/vazir.css";
 
-@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
 
 @source '../../../../vendor/wezlo/filament-grid-list/resources/views/**/*';
 
