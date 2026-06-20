@@ -8,3 +8,7 @@
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
+
+.fi-main-ctn {
+    height: calc(100dvh - 4rem);
+}
