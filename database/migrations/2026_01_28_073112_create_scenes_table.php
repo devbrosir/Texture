@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->json('tags')->nullable();
             $table->boolean('active')->default(true);
+            $table->unsignedInteger('version')->default(1);
             $table->timestamps();
         });
     }

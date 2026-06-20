@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasVersion;
 use Database\Factories\SceneFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read string $title
  * @property-read array $tags
  * @property-read bool $active
+ * @property-read int $version
  * @property-read Collection<Part> $parts
  * @property-read string $image
  * @property-read Carbon $created_at
@@ -28,6 +30,7 @@ final class Scene extends BaseModel implements HasMedia
     /** @use HasFactory<SceneFactory> */
     use HasFactory;
 
+    use HasVersion;
     use InteractsWithMedia;
 
     // collection name
@@ -46,5 +49,15 @@ final class Scene extends BaseModel implements HasMedia
     protected function image(): Attribute
     {
         return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::IMAGE));
+    }
+
+    protected function getVersionableFields(): array
+    {
+        return [];
+    }
+
+    protected function getVersionableMediaCollection(): string
+    {
+        return self::IMAGE;
     }
 }

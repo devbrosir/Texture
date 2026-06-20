@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasVersion;
 use Database\Factories\TextureFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string $title
  * @property-read int $width
  * @property-read int $height
+ * @property-read int $version
  * @property-read string $image
  * @property-read string $thumbnail
  */
@@ -24,6 +26,7 @@ final class Texture extends BaseModel implements HasMedia
     /** @use HasFactory<TextureFactory> */
     use HasFactory;
 
+    use HasVersion;
     use InteractsWithMedia;
 
     // collection name
@@ -42,5 +45,15 @@ final class Texture extends BaseModel implements HasMedia
     protected function thumbnail(): Attribute
     {
         return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::TEXTURE, 'thumbnail'));
+    }
+
+    protected function getVersionableFields(): array
+    {
+        return ['width', 'height'];
+    }
+
+    protected function getVersionableMediaCollection(): string
+    {
+        return self::TEXTURE;
     }
 }

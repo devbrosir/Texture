@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->integer('width');
             $table->integer('height');
+            $table->unsignedInteger('version')->default(1);
             $table->timestamps();
         });
     }
