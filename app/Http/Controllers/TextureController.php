@@ -12,6 +12,9 @@ final class TextureController
 {
     public function index(): AnonymousResourceCollection
     {
+        if (request('ids')) {
+            return TextureResource::collection(Texture::whereIn('id', request('ids'))->limit(50)->get());
+        }
         return TextureResource::collection(Texture::query()->paginate());
     }
 }
