@@ -1,4 +1,4 @@
-FROM php:8.4-fpm
+FROM php:8.4-fpm AS base
 
 WORKDIR /var/www/html
 
@@ -7,7 +7,8 @@ COPY --from=mlocati/php-extension-installer:latest \
     /usr/local/bin/
 
 RUN install-php-extensions \
-    pdo_mysql \
+    pdo_pgsql \
+    pgsql \
     mbstring \
     exif \
     pcntl \
@@ -17,17 +18,18 @@ RUN install-php-extensions \
     zip \
     sockets
 
+
+FROM base AS vendor
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
-
-COPY composer.json composer.lock ./
-
-RUN composer config -g repos.packagist composer https://mirror2.chabokan.net/composer/
-
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+WORKDIR /var/www/html
 
 COPY . .
+
+COPY --from=modules . /var/www/Base
+
+RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
 RUN chown -R www-data:www-data storage bootstrap/cache
 

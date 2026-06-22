@@ -2,6 +2,8 @@ services:
     app:
         build:
             context: .
+            additional_contexts:
+                modules: ../Base
             dockerfile: docker/php/Dockerfile
         image: texture-php
         container_name: laravel_app
@@ -9,10 +11,18 @@ services:
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html
+            - ../Base:/var/www/Base
         depends_on:
-            - mysql
+            - postgres
         networks:
             - laravel
+        environment:
+            - DB_CONNECTION=pgsql
+            - DB_HOST=postgres
+            - DB_PORT=5432
+            - DB_DATABASE=texture
+            - DB_USERNAME=texture_user
+            - DB_PASSWORD=texture
 
     queue:
         image: texture-php
@@ -20,9 +30,16 @@ services:
         volumes:
             - .:/var/www/html
         depends_on:
-            - mysql
+            - postgres
         networks:
             - laravel
+        environment:
+            - DB_CONNECTION=pgsql
+            - DB_HOST=postgres
+            - DB_PORT=5432
+            - DB_DATABASE=texture
+            - DB_USERNAME=texture_user
+            - DB_PASSWORD=texture
 
     nginx:
         image: nginx:alpine
@@ -38,24 +55,24 @@ services:
         networks:
             - laravel
 
-    mysql:
-        image: mysql:8.4
-        container_name: laravel_mysql
+    postgres:
+        image: postgres:18-alpine
+        container_name: laravel_postgres
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: laravel
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: laravel
-            MYSQL_PASSWORD: secret
+            POSTGRES_DB: texture
+            POSTGRES_USER: texture_user
+            POSTGRES_PASSWORD: texture
         ports:
-            - "3306:3306"
+            - "5432:5432"
         volumes:
-            - mysql_data:/var/lib/mysql
+            - postgres_data:/var/lib/postgresql/data
         networks:
             - laravel
 
 volumes:
-    mysql_data:
+    postgres_data:
 
 networks:
     laravel:
+        driver: bridge
