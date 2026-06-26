@@ -29,9 +29,21 @@ COPY . .
 
 COPY --from=modules . /var/www/Base
 
+RUN composer config repo.packagist composer https://mirror.abrha.net/repository/composer/
+
 RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
 RUN chown -R www-data:www-data storage bootstrap/cache
+
+FROM node:lts-alpine3.24 AS builder
+
+WORKDIR /var/www/html
+
+COPY --from=vendor . .
+
+RUN npm install
+
+RUN npm run build
 
 USER www-data
 
