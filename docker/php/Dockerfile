@@ -18,6 +18,7 @@ RUN install-php-extensions \
     zip \
     sockets
 
+COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 FROM base AS vendor
 
@@ -31,7 +32,9 @@ COPY --from=modules . /var/www/Base
 
 RUN composer config repo.packagist composer https://mirror.abrha.net/repository/composer/
 
-RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader --classmap-authoritative
+
+RUN rm -rf tests node_modules storage/logs/*
 
 RUN chown -R www-data:www-data storage bootstrap/cache
 
@@ -39,12 +42,23 @@ FROM node:lts-alpine3.24 AS builder
 
 WORKDIR /var/www/html
 
-COPY --from=vendor . .
+COPY --from=vendor /var/www/html .
 
-RUN npm install
-
+RUN npm ci
 RUN npm run build
 
+FROM base AS production
+
+WORKDIR /var/www/html
+
+COPY --from=vendor /var/www/html .
+COPY --from=builder /var/www/html/public ./public
+
+RUN mkdir -p storage/framework/{cache,sessions,views} \
+    && chown -R www-data:www-data storage bootstrap/cache
+
 USER www-data
+
+EXPOSE 9000
 
 CMD ["php-fpm"]
