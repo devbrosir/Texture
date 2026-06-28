@@ -32,7 +32,7 @@ COPY --from=modules . /var/www/Base
 
 RUN composer config repo.packagist composer https://mirror.abrha.net/repository/composer/
 
-RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader --classmap-authoritative
+RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader --classmap-authoritative --no-scripts
 
 RUN rm -rf tests node_modules storage/logs/*
 
@@ -53,6 +53,7 @@ WORKDIR /var/www/html
 
 COPY --from=vendor /var/www/html .
 COPY --from=builder /var/www/html/public ./public
+COPY --from=vendor /var/www/Base /var/www/Base
 
 RUN mkdir -p storage/framework/{cache,sessions,views} \
     && chown -R www-data:www-data storage bootstrap/cache
