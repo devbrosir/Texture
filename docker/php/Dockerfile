@@ -63,3 +63,8 @@ USER www-data
 EXPOSE 9000
 
 CMD ["php-fpm"]
+
+FROM nginx:alpine AS nginx
+
+COPY --from=production /var/www/html/public /var/www/html/public
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf

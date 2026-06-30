@@ -51,7 +51,10 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: docker/nginx/Dockerfile
+      additional_contexts:
+        modules: ../Base
+      dockerfile: docker/php/Dockerfile
+      target: nginx
     restart: unless-stopped
     depends_on:
       - app
