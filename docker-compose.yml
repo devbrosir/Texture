@@ -1,55 +1,38 @@
 services:
-    app:
+    app: &laravel-service
         build:
             context: .
             additional_contexts:
                 modules: ../Base
             dockerfile: docker/php/Dockerfile
-        image: texture-php
-        container_name: laravel_app
+        image: texture:latest
         restart: unless-stopped
         working_dir: /var/www/html
-        volumes:
-            - .:/var/www/html
-            - ../Base:/var/www/Base
+        environment:
+            DB_CONNECTION: pgsql
+            DB_HOST: postgres
+            DB_PORT: 5432
+            DB_DATABASE: texture
+            DB_USERNAME: texture_user
+            DB_PASSWORD: ${DB_PASSWORD:-texture}
         depends_on:
-            - postgres
+            postgres:
+                condition: service_healthy
         networks:
             - laravel
-        environment:
-            - DB_CONNECTION=pgsql
-            - DB_HOST=postgres
-            - DB_PORT=5432
-            - DB_DATABASE=texture
-            - DB_USERNAME=texture_user
-            - DB_PASSWORD=texture
 
     queue:
-        image: texture-php
-        command: php artisan queue:work --tries=3 --timeout=120
-        volumes:
-            - .:/var/www/html
-        depends_on:
-            - postgres
-        networks:
-            - laravel
-        environment:
-            - DB_CONNECTION=pgsql
-            - DB_HOST=postgres
-            - DB_PORT=5432
-            - DB_DATABASE=texture
-            - DB_USERNAME=texture_user
-            - DB_PASSWORD=texture
+        <<: *laravel-service
+        command: php artisan queue:work --tries=3 --timeout=120 --sleep=3
+        container_name: laravel_queue
 
     nginx:
         image: nginx:alpine
-        container_name: laravel_nginx
         restart: unless-stopped
         ports:
             - "80:80"
         volumes:
-            - .:/var/www/html
-            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
         depends_on:
             - app
         networks:
@@ -57,16 +40,18 @@ services:
 
     postgres:
         image: postgres:18-alpine
-        container_name: laravel_postgres
         restart: unless-stopped
         environment:
             POSTGRES_DB: texture
             POSTGRES_USER: texture_user
-            POSTGRES_PASSWORD: texture
-        ports:
-            - "5432:5432"
+            POSTGRES_PASSWORD: ${DB_PASSWORD:-texture}
         volumes:
-            - postgres_data:/var/lib/postgresql/data
+            - postgres_data:/var/lib/postgresql
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U texture_user -d texture"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
         networks:
             - laravel
 

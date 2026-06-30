@@ -1,0 +1,18 @@
+services:
+  app:
+    container_name: laravel_app
+    user: "1000:1000"
+    volumes:
+      - .:/var/www/html
+      - ../Base:/var/www/Base
+
+  queue:
+    user: "1000:1000"
+    volumes:
+      - .:/var/www/html
+      - ../Base:/var/www/Base
+
+  nginx:
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
