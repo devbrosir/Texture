@@ -21,12 +21,14 @@ Route::prefix('v1')->group(function (): void {
         Route::post('requests/{process_request}/cancel', [ProcessRequestController::class, 'cancel'])
             ->name('process-requests.cancel');
 
-        Route::resource('scenes', SceneController::class)->only(['index', 'show']);
-        Route::get('textures', [TextureController::class, 'index'])->name('textures.index');
         Route::post('activities', [ActivityController::class, 'batchStore'])->name('activity.batch-store');
     });
 
+    Route::resource('scenes', SceneController::class)->only(['index', 'show']);
+    Route::get('textures', [TextureController::class, 'index'])->name('textures.index');
+
     // Just for test
+    // for editor to work out of Filament panel for test
     if (! app()->environment('production')) {
         Route::name('api.')->group(function (): void {
             Route::get('parts/{part}', [PartController::class, 'show'])->name('parts.show');

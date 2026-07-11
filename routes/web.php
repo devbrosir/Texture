@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 use Modules\Base\Http\Middleware\FormatApiResponse;
 
 Route::redirect('/', '/admin');
+
+// for editor to work in Filament panel
 Route::middleware('auth')->middleware(FormatApiResponse::class)->name('web.')->group(function (): void {
     Route::get('parts/{part}', [PartController::class, 'show'])->name('parts.show');
     Route::put('parts/{part}/set-mask', [PartController::class, 'setMaskData'])->name('parts.set-mask-data');

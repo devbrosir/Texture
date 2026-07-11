@@ -42,6 +42,8 @@ services:
       DB_DATABASE: texture
       DB_USERNAME: texture_user
       DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - storage_data:/var/www/html/storage
 
     depends_on:
       postgres:
