@@ -8,7 +8,6 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Providers\AuthModuleServiceProvider;
 use Modules\Base\Providers\BaseModuleServiceProvider;
@@ -42,6 +41,5 @@ final class AppServiceProvider extends ServiceProvider
     {
         Model::shouldBeStrict(App::isLocal());
         Date::useClass(CarbonImmutable::class);
-        DB::prohibitDestructiveCommands(App::isProduction());
     }
 }
