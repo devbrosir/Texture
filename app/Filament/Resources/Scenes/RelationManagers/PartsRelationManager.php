@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Scenes\RelationManagers;
 
+use App\Enums\TextureType;
 use App\Filament\Pages\Editor;
 use App\Models\Part;
 use App\Models\Texture;
@@ -48,6 +49,9 @@ class PartsRelationManager extends RelationManager
                 TextInput::make('title')->label('نام بخش')
                     ->required()
                     ->maxLength(255),
+                Select::make('type')->label('نوع بخش')
+                    ->options(TextureType::toOptions())
+                    ->required(),
                 Toggle::make('active')->label('فعال')
                     ->default(true),
                 SpatieMediaLibraryFileUpload::make('mask')

@@ -9,6 +9,7 @@ return [
 
     // OTP Settings
     'otp' => [
+        'enabled' => true,
         'length' => 6,
         'expire' => 300, // seconds
         'retry_after' => 60, // retry send after seconds

@@ -28,7 +28,7 @@ Route::prefix('v1')->group(function (): void {
 
     // Just for test
     if (! app()->environment('production')) {
-        Route::name('api.')->group(function () {
+        Route::name('api.')->group(function (): void {
             Route::get('parts/{part}', [PartController::class, 'show'])->name('parts.show');
             Route::put('parts/{part}/set-mask', [PartController::class, 'setMaskData'])->name('parts.set-mask-data');
             Route::get('textures', [TextureController::class, 'index'])->name('textures.index');

@@ -18,4 +18,9 @@ return [
         'SEND_REQUEST' => 'ارسال درخواست محیط',
         'CANCEL_REQUEST' => 'لغو درخواست',
     ],
+
+    'texture_types' => [
+        'FLOOR' => 'کف',
+        'WALL' => 'دیوار',
+    ],
 ];

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\TextureType;
 use App\Traits\HasVersion;
 use Database\Factories\TextureFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,6 +19,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read int $width
  * @property-read int $height
  * @property-read int $version
+ * @property-read null|string $color
+ * @property-read TextureType $type
+ * @property-read null|array $tags
+ * @property-read null|string $product_url
  * @property-read string $image
  * @property-read string $thumbnail
  */
@@ -31,6 +36,11 @@ final class Texture extends BaseModel implements HasMedia
 
     // collection name
     public const string TEXTURE = 'texture';
+
+    protected $casts = [
+        'type' => TextureType::class,
+        'tags' => 'array',
+    ];
 
     public function registerMediaConversions(?Media $media = null): void
     {

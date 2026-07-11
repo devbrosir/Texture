@@ -20,7 +20,7 @@ final class AdminUserSeeder extends Seeder
             'email' => 'admin@example.com',
             'mobile' => '09399118421',
             'role' => Role::ADMIN->value,
-            'password' => bcrypt(env('ADMIN_PASSWORD')),
+            'password' => 'www',
         ]);
     }
 }

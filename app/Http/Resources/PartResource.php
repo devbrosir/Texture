@@ -27,6 +27,7 @@ final class PartResource extends JsonResource
             'version' => $this->version,
             'texture_id' => $this->default_texture_id,
             'mask_config' => $this->mask_config,
+            'type' => $this->type->value,
         ];
     }
 }

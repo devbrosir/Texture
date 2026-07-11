@@ -34,5 +34,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="LARAVEL_API_DEBUGGER" value="false"/>
+        <env name="WP_URL" value="http://localhost:1414"/>
     </php>
 </phpunit>

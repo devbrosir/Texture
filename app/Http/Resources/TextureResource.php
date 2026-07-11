@@ -24,6 +24,10 @@ final class TextureResource extends JsonResource
             'width' => $this->width,
             'height' => $this->height,
             'version' => $this->version,
+            'color' => $this->color,
+            'type' => $this->type->value,
+            'tags' => $this->tags,
+            'product_url' => $this->product_url,
             'url' => $this->image,
             'thumbnail' => $this->thumbnail,
         ];

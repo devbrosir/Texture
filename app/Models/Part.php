@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\TextureType;
 use App\Traits\HasVersion;
 use Database\Factories\PartFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -20,6 +21,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int $default_texture_id
  * @property-read int $version
  * @property-read array $mask_config
+ * @property-read TextureType $type
  * @property-read string $mask
  * @property-read string $thumbnail
  * @property-read Scene $scene
@@ -37,6 +39,7 @@ final class Part extends BaseModel implements HasMedia
     protected $casts = [
         'active' => 'boolean',
         'mask_config' => 'array',
+        'type' => TextureType::class,
     ];
 
     public function scene(): BelongsTo
