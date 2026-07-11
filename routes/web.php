@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Modules\Base\Http\Middleware\FormatApiResponse;
 
-Route::redirect('/', 'admin');
+Route::redirect('/', '/admin');
 
 Route::middleware('auth')->middleware(FormatApiResponse::class)->group(function (): void {
     Route::get('parts/{part}', [PartController::class, 'show'])->name('parts.show');

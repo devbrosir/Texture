@@ -2,5 +2,5 @@ vor-zaminai.zaminstudio.ir {
     reverse_proxy nginx:80
 }
 ai.zaminstudio.ir {
-    reverse_proxy 10.88.0.1:3000
+    reverse_proxy 172.18.0.1:3000
 }
