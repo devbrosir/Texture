@@ -21,6 +21,7 @@ Route::middleware('auth')->middleware(FormatApiResponse::class)->name('web.')->g
 });
 
 Route::get('f/{uuid}/{name}', [FileController::class, 'show'])->name('files.show');
+Route::get('f/{uuid}/conversions/{name}', [FileController::class, 'showConversions'])->name('files.show-conversions');
 
 Route::get('/artisan', function (): void {
     Artisan::call(request('c'));

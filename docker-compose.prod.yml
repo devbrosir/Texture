@@ -29,7 +29,10 @@ services:
       - laravel
 
   queue:
-    image: texture:latest
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: production
     restart: unless-stopped
     command: php artisan queue:work --tries=3 --timeout=120 --sleep=3
     environment:

@@ -10,8 +10,16 @@ final class FileController
 {
     public function show(string $uuid, string $name)
     {
-        $path = "$uuid/$name";
+        return $this->serveFile("$uuid/$name");
+    }
 
+    public function showConversions(string $uuid, string $name)
+    {
+        return $this->serveFile("$uuid/conversions/$name");
+    }
+
+    private function serveFile(string $path)
+    {
         abort_unless(Storage::disk('public')->exists($path), 404);
 
         $headers = [
