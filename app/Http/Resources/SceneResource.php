@@ -24,6 +24,7 @@ final class SceneResource extends JsonResource
             'tags' => $this->tags,
             'active' => $this->active,
             'back_url' => $this->image,
+            'thumbnail' => $this->thumbnail,
             'version' => $this->version,
             'parts_count' => $this->whenCounted('parts'),
             'parts' => $this->relationLoaded('parts')

@@ -44,7 +44,9 @@ final class Texture extends BaseModel implements HasMedia
 
     public function registerMediaConversions(?Media $media = null): void
     {
-        $this->addMediaConversion('thumbnail')->width(80)->height(80)->keepOriginalImageFormat();
+        $this->addMediaConversion('thumbnail')->width(80)->height(80)->keepOriginalImageFormat()
+            ->quality(100)
+            ->nonOptimized();
     }
 
     protected function image(): Attribute

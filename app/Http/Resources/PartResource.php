@@ -24,6 +24,7 @@ final class PartResource extends JsonResource
             'back_url' => $this->_scene['image'] ?? $this->scene->image,
             'scene_title' => $this->_scene['title'] ?? $this->scene->title,
             'mask_url' => $this->mask,
+            'thumbnail' => $this->thumbnail,
             'version' => $this->version,
             'texture_id' => $this->default_texture_id,
             'mask_config' => $this->mask_config,
