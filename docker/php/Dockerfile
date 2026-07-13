@@ -16,7 +16,8 @@ RUN install-php-extensions \
     intl \
     gd \
     zip \
-    sockets
+    sockets \
+    imagick
 
 COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
