@@ -17,11 +17,12 @@ return [
     |
     */
 
-    'paths' => env('APP_ENV') === 'production' ? ['api/*', 'sanctum/csrf-cookie'] : ['*'],
+    'paths' => ['*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => env('APP_ENV') === 'production' ?
+        [env('FRONT_URL'), env('APP_URL')] : ['*'],
 
     'allowed_origins_patterns' => [],
 
