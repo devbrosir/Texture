@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 use Modules\Base\Support\BaseModel;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property-read string $title
@@ -22,6 +23,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int $version
  * @property-read Collection<Part> $parts
  * @property-read string $image
+ * @property-read string $thumbnail
  * @property-read Carbon $created_at
  * @property-read Carbon $updated_at
  */
@@ -41,6 +43,11 @@ final class Scene extends BaseModel implements HasMedia
         'tags' => 'array',
     ];
 
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumbnail')->width(80)->height(80)->keepOriginalImageFormat();
+    }
+
     public function parts(): HasMany
     {
         return $this->hasMany(Part::class);
@@ -49,6 +56,11 @@ final class Scene extends BaseModel implements HasMedia
     protected function image(): Attribute
     {
         return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::IMAGE));
+    }
+
+    protected function thumbnail(): Attribute
+    {
+        return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::IMAGE, 'thumbnail'));
     }
 
     protected function getVersionableFields(): array

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Base\Support\BaseModel;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property-read string $title
@@ -42,6 +43,11 @@ final class Part extends BaseModel implements HasMedia
         'type' => TextureType::class,
     ];
 
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumbnail')->width(80)->height(80)->keepOriginalImageFormat();
+    }
+
     public function scene(): BelongsTo
     {
         return $this->belongsTo(Scene::class);
@@ -55,6 +61,11 @@ final class Part extends BaseModel implements HasMedia
     protected function mask(): Attribute
     {
         return new Attribute(get: fn () => $this->getFirstMedia(self::MASK)?->original_url);
+    }
+
+    protected function thumbnail(): Attribute
+    {
+        return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::MASK, 'thumbnail'));
     }
 
     protected function getVersionableFields(): array
