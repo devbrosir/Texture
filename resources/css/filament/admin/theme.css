@@ -9,6 +9,10 @@
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
 
+body, .fi-body {
+    font-family: Vazirmatn RD, sans-serif;
+}
+
 .fi-main-ctn {
     height: calc(100dvh - 4rem);
 }
