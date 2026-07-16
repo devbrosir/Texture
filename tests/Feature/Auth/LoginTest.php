@@ -104,6 +104,19 @@ it('returns 401 when login credentials are invalid', function (): void {
     ])->assertUnauthorized();
 });
 
+it('creates user when mobile does not exist', function (): void {
+    Authenticator::shouldReceive('sendOtpToUser')
+        ->once()
+        ->withSomeOfArgs(OtpChannel::SMS)
+        ->andReturnNull();
+
+    $this->postJson('/api/v1/auth/send-otp', [
+        'mobile' => '09111111111',
+    ])->assertOk();
+
+    assertDatabaseHas('users', ['mobile' => '09111111111', 'password' => null]);
+});
+
 it('login via wordpress', function (): void {
     Http::fake([
         env('WP_URL').'/wp-json/sso/v1/verify' => Http::response([

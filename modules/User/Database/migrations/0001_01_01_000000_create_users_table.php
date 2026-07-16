@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('wp_id')->nullable();
             $table->date('birthday')->nullable();
             $table->tinyInteger('gender')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('remember_token')->nullable();
             $table->timestamps();
 

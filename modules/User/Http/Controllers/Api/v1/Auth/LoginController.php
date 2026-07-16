@@ -8,7 +8,6 @@ use App\Enums\ActivityType;
 use App\Facades\ActivityLogger;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -19,6 +18,7 @@ use Modules\Auth\Exceptions\OtpSendException;
 use Modules\Auth\Facades\Authenticator;
 use Modules\Auth\Services\AuthUserService;
 use Modules\User\Http\Requests\Auth\LoginRequest;
+use Modules\User\Http\Requests\Auth\LoginWPRequest;
 use Modules\User\Http\Requests\Auth\SendOtpRequest;
 use Modules\User\Http\Requests\Auth\VerifyRequest;
 use Modules\User\Models\User;
@@ -35,11 +35,13 @@ final class LoginController
         return Authenticator::loginUserAndIssueToken($user);
     }
 
-    public function sendOtp(SendOtpRequest $request, AuthUserService $authUserService): void
+    public function sendOtp(SendOtpRequest $request, AuthUserService $authUserService, UserService $service): void
     {
         $mobile = $request->str('mobile')->value();
         $user = $authUserService->findByUsernameField($mobile);
-        abort_if(! $user instanceof Authenticatable, 422, __('User Not Found'));
+        if (! $user instanceof Authenticatable) {
+            $user = $service->createUser(compact('mobile'));
+        }
         /** @var User $user */
         try {
             Authenticator::sendOtpToUser(OtpChannel::SMS, $user);
@@ -63,9 +65,9 @@ final class LoginController
         }
     }
 
-    public function wordpressLogin(Request $request, UserService $service): array
+    public function wordpressLogin(LoginWPRequest $request, UserService $service): array
     {
-        $tempToken = $request->get('token');
+        $tempToken = $request->validated('token');
         try {
             $response = Http::post(env('WP_URL').'/wp-json/sso/v1/verify', ['token' => $tempToken])
                 ->json();

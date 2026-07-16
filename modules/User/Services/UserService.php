@@ -18,12 +18,23 @@ class UserService
     public function createWPUser(array $data): User
     {
         return User::query()->create([
-            'name' => $data['name'] ?? ($data['first_name'].$data['last_name']) ?? $data['display_name'],
+            'name' => $data['name'] ?? ($data['first_name'].' '.$data['last_name']) ?? $data['display_name'],
             'email' => $data['email'],
             'mobile' => $data['mobile'] ?? null,
             'wp_id' => $data['id'],
             'role' => Role::USER,
             'password' => Hash::make($data['username']),
+        ]);
+    }
+
+    public function createUser(array $data): User
+    {
+        return User::query()->create([
+            'name' => $data['name'] ?? null,
+            'email' => $data['email'] ?? null,
+            'mobile' => $data['mobile'] ?? null,
+            'wp_id' => $data['wp_id'] ?? null,
+            'role' => Role::USER,
         ]);
     }
 
