@@ -70,40 +70,6 @@ it('returns 401 when verifyOtp is invalid', function (): void {
     ])->assertUnauthorized();
 });
 
-it('logs in successfully and returns token payload', function (): void {
-    // Create a user model in DB for credentials check if needed, or return a mock user object.
-    $user = User::factory()->create([
-        'mobile' => '09123456789',
-        'password' => bcrypt('password123'),
-    ]);
-
-    Authenticator::shouldReceive('checkCredentials')
-        ->once()
-        ->withSomeOfArgs('09123456789', 'password123')
-        ->andReturn($user);
-
-    Authenticator::shouldReceive('loginUserAndIssueToken')
-        ->once()
-        ->with($user)
-        ->andReturn(['token' => 'test-token', 'type' => 'bearer']);
-
-    $this->postJson('/api/v1/auth/login', [
-        'mobile' => '09123456789',
-        'password' => 'password123',
-    ])->assertJsonFragment(['token' => 'test-token']);
-});
-
-it('returns 401 when login credentials are invalid', function (): void {
-    Authenticator::shouldReceive('checkCredentials')
-        ->once()
-        ->andReturnFalse();
-
-    $this->postJson('/api/v1/auth/login', [
-        'mobile' => '09123456789',
-        'password' => '654321',
-    ])->assertUnauthorized();
-});
-
 it('creates user when mobile does not exist', function (): void {
     Authenticator::shouldReceive('sendOtpToUser')
         ->once()

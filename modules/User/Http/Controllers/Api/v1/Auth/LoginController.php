@@ -17,7 +17,6 @@ use Modules\Auth\Exceptions\OtpRateLimitException;
 use Modules\Auth\Exceptions\OtpSendException;
 use Modules\Auth\Facades\Authenticator;
 use Modules\Auth\Services\AuthUserService;
-use Modules\User\Http\Requests\Auth\LoginRequest;
 use Modules\User\Http\Requests\Auth\LoginWPRequest;
 use Modules\User\Http\Requests\Auth\SendOtpRequest;
 use Modules\User\Http\Requests\Auth\VerifyRequest;
@@ -26,15 +25,6 @@ use Modules\User\Services\UserService;
 
 final class LoginController
 {
-    public function passwordLogin(LoginRequest $request): array
-    {
-        $user = Authenticator::checkCredentials($request->mobile, $request->password, ['email', 'mobile']);
-        abort_if(! $user instanceof User, 401, __('mobile or password is not correct'));
-        ActivityLogger::log(ActivityType::LOGIN_BY_PASS, $user, $user->id);
-
-        return Authenticator::loginUserAndIssueToken($user);
-    }
-
     public function sendOtp(SendOtpRequest $request, AuthUserService $authUserService, UserService $service): void
     {
         $mobile = $request->str('mobile')->value();
