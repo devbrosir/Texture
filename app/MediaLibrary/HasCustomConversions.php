@@ -33,7 +33,7 @@ trait HasCustomConversions
             return null;
         }
 
-        $fileName = pathinfo($media->file_name, PATHINFO_FILENAME);
+        $fileName = pathinfo((string) $media->file_name, PATHINFO_FILENAME);
 
         return dirname($media->getUrl())."/conversions/$fileName-$conversionName.$media->extension";
     }

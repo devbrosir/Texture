@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ConversionGenerator
 {
-    protected ?string $conversion;
+    protected ?string $conversion = null;
 
     protected ?int $width = null;
 

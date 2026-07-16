@@ -9,8 +9,11 @@
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
 
-body, .fi-body {
-    font-family: Vazirmatn RD, sans-serif;
+body,
+.fi-body {
+    font-family:
+        Vazirmatn RD,
+        sans-serif;
 }
 
 .fi-main-ctn {

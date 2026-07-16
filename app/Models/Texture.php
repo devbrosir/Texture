@@ -32,6 +32,7 @@ final class Texture extends BaseModel implements HasMedia
 
     /** @use HasFactory<TextureFactory> */
     use HasFactory;
+
     use HasVersion;
     use InteractsWithMedia;
 

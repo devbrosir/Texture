@@ -33,6 +33,7 @@ final class Part extends BaseModel implements HasMedia
 
     /** @use HasFactory<PartFactory> */
     use HasFactory;
+
     use HasVersion;
     use InteractsWithMedia;
 
@@ -61,7 +62,7 @@ final class Part extends BaseModel implements HasMedia
 
     protected function mask(): Attribute
     {
-        return new Attribute(get: fn () => $this->getFirstMediaUrl(self::MASK));
+        return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::MASK));
     }
 
     protected function thumbnail(): Attribute
