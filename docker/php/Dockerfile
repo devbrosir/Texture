@@ -2,6 +2,17 @@ FROM php:8.4-fpm AS base
 
 WORKDIR /var/www/html
 
+RUN apt-get update && apt-get install -y \
+    $PHPIZE_DEPS \
+    curl \
+    libmagickwand-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fL \
+    --output /usr/local/bin/pie \
+    https://github.com/php/pie/releases/latest/download/pie.phar \
+    && chmod +x /usr/local/bin/pie
+
 COPY --from=mlocati/php-extension-installer:latest \
     /usr/bin/install-php-extensions \
     /usr/local/bin/
@@ -16,8 +27,9 @@ RUN install-php-extensions \
     intl \
     gd \
     zip \
-    sockets \
-    imagick
+    sockets
+
+RUN pie install imagick/imagick
 
 COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 

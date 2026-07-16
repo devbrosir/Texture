@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\TextureType;
+use App\MediaLibrary\HasCustomConversions;
 use App\Traits\HasVersion;
 use Database\Factories\TextureFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Base\Support\BaseModel;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property-read string $title
@@ -28,9 +28,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 final class Texture extends BaseModel implements HasMedia
 {
+    use HasCustomConversions;
+
     /** @use HasFactory<TextureFactory> */
     use HasFactory;
-
     use HasVersion;
     use InteractsWithMedia;
 
@@ -42,11 +43,9 @@ final class Texture extends BaseModel implements HasMedia
         'tags' => 'array',
     ];
 
-    public function registerMediaConversions(?Media $media = null): void
+    public function registerCustomConversions(): void
     {
-        $this->addMediaConversion('thumbnail')->width(80)->height(80)->keepOriginalImageFormat()
-            ->quality(100)
-            ->nonOptimized();
+        $this->addCustomConversion('thumbnail')->width(150)->height(150);
     }
 
     protected function image(): Attribute
@@ -56,7 +55,7 @@ final class Texture extends BaseModel implements HasMedia
 
     protected function thumbnail(): Attribute
     {
-        return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::TEXTURE, 'thumbnail'));
+        return new Attribute(get: fn (): string => $this->getCustomConversionUrl(self::TEXTURE, 'thumbnail'));
     }
 
     protected function getVersionableFields(): array

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\MediaLibrary\HasCustomConversions;
 use App\Traits\HasVersion;
 use Database\Factories\SceneFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -14,7 +15,6 @@ use Illuminate\Support\Collection;
 use Modules\Base\Support\BaseModel;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property-read string $title
@@ -29,6 +29,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 final class Scene extends BaseModel implements HasMedia
 {
+    use HasCustomConversions;
+
     /** @use HasFactory<SceneFactory> */
     use HasFactory;
 
@@ -43,11 +45,9 @@ final class Scene extends BaseModel implements HasMedia
         'tags' => 'array',
     ];
 
-    public function registerMediaConversions(?Media $media = null): void
+    public function registerCustomConversions(): void
     {
-        $this->addMediaConversion('thumbnail')->width(80)->height(80)->keepOriginalImageFormat()
-            ->quality(100)
-            ->nonOptimized();
+        $this->addCustomConversion('thumbnail')->width(150)->height(150);
     }
 
     public function parts(): HasMany
@@ -62,7 +62,7 @@ final class Scene extends BaseModel implements HasMedia
 
     protected function thumbnail(): Attribute
     {
-        return new Attribute(get: fn (): string => $this->getFirstMediaUrl(self::IMAGE, 'thumbnail'));
+        return new Attribute(get: fn (): string => $this->getCustomConversionUrl(self::IMAGE, 'thumbnail'));
     }
 
     protected function getVersionableFields(): array
