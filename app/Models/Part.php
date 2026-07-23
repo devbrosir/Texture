@@ -67,7 +67,7 @@ final class Part extends BaseModel implements HasMedia
 
     protected function thumbnail(): Attribute
     {
-        return new Attribute(get: fn (): string => $this->getCustomConversionUrl(self::MASK, 'thumbnail'));
+        return new Attribute(get: fn (): ?string => $this->getCustomConversionUrl(self::MASK, 'thumbnail'));
     }
 
     protected function getVersionableFields(): array

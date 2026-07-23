@@ -62,7 +62,7 @@ final class Scene extends BaseModel implements HasMedia
 
     protected function thumbnail(): Attribute
     {
-        return new Attribute(get: fn (): string => $this->getCustomConversionUrl(self::IMAGE, 'thumbnail'));
+        return new Attribute(get: fn (): ?string => $this->getCustomConversionUrl(self::IMAGE, 'thumbnail'));
     }
 
     protected function getVersionableFields(): array

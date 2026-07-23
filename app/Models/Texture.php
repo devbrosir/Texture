@@ -56,7 +56,7 @@ final class Texture extends BaseModel implements HasMedia
 
     protected function thumbnail(): Attribute
     {
-        return new Attribute(get: fn (): string => $this->getCustomConversionUrl(self::TEXTURE, 'thumbnail'));
+        return new Attribute(get: fn (): ?string => $this->getCustomConversionUrl(self::TEXTURE, 'thumbnail'));
     }
 
     protected function getVersionableFields(): array
