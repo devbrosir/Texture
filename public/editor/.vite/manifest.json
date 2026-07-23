@@ -1,12 +1,12 @@
 {
   "src/main.ts": {
-    "file": "index.umd.js",
+    "file": "main.LQ87C6im.js",
     "name": "main",
     "src": "src/main.ts",
     "isEntry": true
   },
   "style.css": {
-    "file": "editor.css",
+    "file": "assets/editor.D3bh96Jv..css",
     "src": "style.css"
   }
 }
