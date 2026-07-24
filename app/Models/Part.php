@@ -89,7 +89,7 @@ final class Part extends BaseModel implements HasMedia
 
     protected function getVersionableFields(): array
     {
-        return ['mask_config'];
+        return ['mask_config', 'type'];
     }
 
     protected function getVersionableMediaCollection(): string
