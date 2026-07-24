@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Textures\Schemas;
 
-use App\Enums\TextureType;
 use App\Models\Texture;
+use App\Models\TextureCategory;
+use App\Models\TextureType;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 
 class TextureForm
@@ -26,9 +29,37 @@ class TextureForm
                 TextInput::make('height')->label('ارتفاع')
                     ->required()
                     ->numeric(),
-                Select::make('type')->label('نوع تکسچر')
-                    ->options(TextureType::toOptions())
-                    ->required(),
+                Select::make('type_id')
+                    ->label('نوع تکسچر')
+                    ->options(TextureType::query()->pluck('title', 'id'))
+                    ->live()
+                    ->required()
+                    ->afterStateUpdated(fn (Set $set): mixed => $set('category_id', null))
+                    ->createOptionForm([
+                        TextInput::make('title')->required(),
+                    ])
+                    ->createOptionUsing(fn (array $data) => TextureType::query()->create($data)->id),
+
+                Select::make('category_id')
+                    ->label('دسته تکسچر')
+                    ->options(fn (Get $get) => TextureCategory::query()
+                        ->when(
+                            $get('type_id'),
+                            fn ($query, $typeId) => $query->where('type_id', $typeId),
+                        )->pluck('title', 'id'))
+                    ->preload()
+                    ->required()
+                    ->createOptionForm(fn (Get $get): array => [
+                        TextInput::make('title')->required(),
+
+                        Select::make('type_id')
+                            ->label('نوع تکسچر')
+                            ->options(TextureType::query()->pluck('title', 'id'))
+                            ->default($get('type_id'))
+                            ->required(),
+                    ])
+                    ->createOptionUsing(fn (array $data) => TextureCategory::query()->create($data)->id),
+
                 TextInput::make('color')->label('رنگ')
                     ->required(),
                 TagsInput::make('tags')->label('تگ ها')

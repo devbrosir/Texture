@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Scenes\RelationManagers;
 
 use App\Enums\TextureType;
+use App\Filament\Forms\Components\TreeCheckboxField;
 use App\Filament\Pages\Editor;
 use App\Models\Part;
 use App\Models\Texture;
+use App\Models\TextureCategory;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -52,8 +54,10 @@ class PartsRelationManager extends RelationManager
                 Select::make('type')->label('نوع بخش')
                     ->options(TextureType::toOptions())
                     ->required(),
-                Toggle::make('active')->label('فعال')
-                    ->default(true),
+                TreeCheckboxField::make('selected_types')
+                    ->label('دسته‌بندی‌ها')
+                    ->default([1, 4, 5])
+                    ->options(TextureCategory::tree()),
                 SpatieMediaLibraryFileUpload::make('mask')
                     ->label('ماسک')
                     ->collection(Part::MASK)
@@ -85,6 +89,9 @@ class PartsRelationManager extends RelationManager
                     ->disabled()
                     ->dehydrated(false) // prevent from store in database
                     ->formatStateUsing(fn (?Part $record): string => $record && $record->mask_config ? 'تنظیم شده' : 'تنظیم نشده'),
+
+                Toggle::make('active')->label('فعال')
+                    ->default(true),
             ]);
     }
 
@@ -111,7 +118,8 @@ class PartsRelationManager extends RelationManager
                 CreateAction::make()
                     ->label('ایجاد بخش جدید')
                     ->icon('heroicon-o-plus')
-                    ->modalHeading('ایجاد بخش جدید'),
+                    ->modalHeading('ایجاد بخش جدید')
+                    ->mutateDataUsing($this->mutateData(...)),
             ])
             ->recordActions([
                 Action::make('goto_editor')
@@ -124,7 +132,8 @@ class PartsRelationManager extends RelationManager
                 EditAction::make()
                     ->label('ویرایش')
                     ->color('warning')
-                    ->icon('heroicon-o-pencil'),
+                    ->icon('heroicon-o-pencil')
+                    ->mutateDataUsing($this->mutateData(...)),
 
                 DeleteAction::make()
                     ->label('حذف')
@@ -133,5 +142,13 @@ class PartsRelationManager extends RelationManager
             ->emptyStateHeading('هیچ بخشی برای این محیط وجود ندارد')
             ->emptyStateDescription('برای شروع، اولین بخش را ایجاد کنید.')
             ->emptyStateIcon('heroicon-o-cube');
+    }
+
+    private function mutateData(array $data): array
+    {
+        $categories = $data['selected_types'];
+        $data['selected_types'] = collect($categories)->reject(fn ($c): bool => str_starts_with((string) $c, 't-'))->values()->toArray();
+
+        return $data;
     }
 }

@@ -23,6 +23,7 @@ final class ScenesTable
                 ToggleColumn::make('active')->label('وضعیت'),
                 TextColumn::make('parts_count')->label('تعداد بخش ها')
                     ->state(fn (Scene $record) => $record->parts_count),
+                TextColumn::make('category.title')->label('دسته بندی'),
                 TextColumn::make('created_at')->label('زمان ایجاد')
                     ->state(fn (Scene $record) => $record->created_at?->toJalali()->format('Y/m/d - H:i:s'))
                     ->sortable()

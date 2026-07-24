@@ -29,6 +29,7 @@ final class PartResource extends JsonResource
             'texture_id' => $this->default_texture_id,
             'mask_config' => $this->mask_config,
             'type' => $this->type->value,
+            'selected_types' => $this->groupedTextures,
         ];
     }
 }

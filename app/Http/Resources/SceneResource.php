@@ -26,6 +26,7 @@ final class SceneResource extends JsonResource
             'back_url' => $this->image,
             'thumbnail' => $this->thumbnail,
             'version' => $this->version,
+            'category' => $this->category,
             'parts_count' => $this->whenCounted('parts'),
             'parts' => $this->relationLoaded('parts')
                 ? PartResource::collection(

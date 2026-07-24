@@ -6,6 +6,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\ProcessRequestController;
+use App\Http\Controllers\SceneCategoryController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TextureController;
@@ -24,6 +25,7 @@ Route::prefix('v1')->group(function (): void {
         Route::post('activities', [ActivityController::class, 'batchStore'])->name('activity.batch-store');
     });
 
+    Route::get('scene-categories', [SceneCategoryController::class, 'index'])->name('scene-categories.index');
     Route::resource('scenes', SceneController::class)->only(['index', 'show']);
     Route::get('textures', [TextureController::class, 'index'])->name('textures.index');
 

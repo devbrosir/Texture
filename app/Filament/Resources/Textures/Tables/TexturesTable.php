@@ -31,6 +31,10 @@ class TexturesTable
                 TextColumn::make('height')->label('ارتفاع')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('type.title')->label('نوع')
+                    ->sortable(),
+                TextColumn::make('category.title')->label('دسته')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -9,6 +9,7 @@ use App\Traits\HasVersion;
 use Database\Factories\SceneFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -21,11 +22,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read array $tags
  * @property-read bool $active
  * @property-read int $version
+ * @property-read int $category_id
  * @property-read Collection<Part> $parts
  * @property-read string $image
  * @property-read string $thumbnail
  * @property-read Carbon $created_at
  * @property-read Carbon $updated_at
+ * @property-read SceneCategory $category
  */
 final class Scene extends BaseModel implements HasMedia
 {
@@ -53,6 +56,11 @@ final class Scene extends BaseModel implements HasMedia
     public function parts(): HasMany
     {
         return $this->hasMany(Part::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(SceneCategory::class, 'category_id');
     }
 
     protected function image(): Attribute
