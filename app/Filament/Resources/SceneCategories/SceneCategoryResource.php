@@ -26,6 +26,7 @@ class SceneCategoryResource extends Resource
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static string|UnitEnum|null $navigationGroup = 'دسته‌ها';
+
     protected static ?int $navigationSort = 1;
 
     public static function getPluralLabel(): ?string

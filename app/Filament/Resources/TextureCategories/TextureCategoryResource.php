@@ -24,6 +24,7 @@ class TextureCategoryResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'title';
+
     protected static string|null|UnitEnum $navigationGroup = 'دسته‌ها';
 
     protected static ?int $navigationSort = 3;
@@ -37,7 +38,6 @@ class TextureCategoryResource extends Resource
     {
         return __('Texture Category');
     }
-
 
     public static function form(Schema $schema): Schema
     {

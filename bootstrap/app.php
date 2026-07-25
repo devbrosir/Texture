@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -28,5 +29,21 @@ return Application::configure(basePath: dirname(__DIR__))
 
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (QueryException $e, $request) {
+            dd($e);
+            if (
+                $e->getCode() === '23000' &&
+                str_contains($e->getMessage(), 'FOREIGN KEY')
+            ) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'message' => 'امکان حذف این مورد وجود ندارد زیرا اطلاعات وابسته دارد.',
+                    ], 422);
+                }
+
+                return back()->with('error', 'امکان حذف این مورد وجود ندارد زیرا اطلاعات وابسته دارد.');
+            }
+
+            return null;
+        });
     })->create();

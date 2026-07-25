@@ -9,6 +9,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Modules\Base\Filament\Actions\SafeDeleteAction;
 
 class TextureCategoriesTable
 {
@@ -21,6 +22,7 @@ class TextureCategoriesTable
             ])
             ->recordActions([
                 EditAction::make(),
+                SafeDeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

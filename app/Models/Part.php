@@ -76,25 +76,22 @@ final class Part extends BaseModel implements HasMedia
 
     protected function groupedTextures(): Attribute
     {
+        $selectedTypes = $this->selected_types ?? [];
+
         return Attribute::make(get: fn (): array => \App\Models\TextureType::with('categories')
-            ->whereHas('categories', fn (Builder $q) => $q->whereIn('id', $this->selected_types))
+            ->whereHas('categories', fn (Builder $q) => $q->whereIn('id', $selectedTypes))
             ->get()
             ->map(fn (\App\Models\TextureType $textureType): array => [
                 'id' => $textureType->id,
                 'title' => $textureType->title,
-                'categories' => $textureType->categories->whereIn('id', $this->selected_types)->values()
+                'categories' => $textureType->categories->whereIn('id', $selectedTypes)->values()
                     ->map(fn (TextureCategory $cat) => $cat->only('id', 'title'))->all(),
             ])->all());
     }
 
-    protected function selectedTypes(): Attribute
-    {
-        return Attribute::make(get: fn (): array => $this->selected_types ?? []);
-    }
-
     protected function getVersionableFields(): array
     {
-        return ['mask_config', 'type'];
+        return ['mask_config'];
     }
 
     protected function getVersionableMediaCollection(): string
