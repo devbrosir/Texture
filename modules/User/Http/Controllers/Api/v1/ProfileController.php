@@ -18,12 +18,12 @@ final class ProfileController
 
     public function show(): ProfileResource
     {
-        return ProfileResource::make(user());
+        return ProfileResource::make(auth()->user());
     }
 
     public function update(UpdateProfileRequest $request, ProfileService $service): ProfileResource
     {
-        $user = $service->update(user(), $request->validated());
+        $user = $service->update(auth()->user(), $request->validated());
 
         return ProfileResource::make($user);
     }

@@ -39,13 +39,17 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-COPY . .
+COPY composer.json composer.lock ./
 
-COPY --from=modules . /var/www/Base
+COPY --from=modules ./modules /var/www/Base/modules
 
 RUN composer config repo.packagist composer https://mirror.abrha.net/repository/composer/
 
-RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader --classmap-authoritative --no-scripts
+RUN --mount=type=cache,target=/root/.composer/cache composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader --classmap-authoritative --no-scripts
+
+COPY . .
+
+RUN composer dump-autoload
 
 RUN rm -rf tests node_modules storage/logs/*
 
@@ -55,9 +59,12 @@ FROM node:lts-alpine3.24 AS builder
 
 WORKDIR /var/www/html
 
+COPY --from=vendor /var/www/html/package*.json ./
+
+RUN --mount=type=cache,target=/root/.npm npm ci
+
 COPY --from=vendor /var/www/html .
 
-RUN npm ci
 RUN npm run build
 
 FROM base AS production
