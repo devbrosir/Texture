@@ -55,8 +55,7 @@ class PartsRelationManager extends RelationManager
                     ->options(TextureType::toOptions())
                     ->required(),
                 TreeCheckboxField::make('selected_types')
-                    ->label('دسته‌بندی‌ها')
-                    ->default([1, 4, 5])
+                    ->label('انواع تکسچر')
                     ->options(TextureCategory::tree()),
                 SpatieMediaLibraryFileUpload::make('mask')
                     ->label('ماسک')

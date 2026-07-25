@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class TextureTypeResource extends Resource
 {
@@ -23,6 +24,20 @@ class TextureTypeResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'title';
+
+    protected static string|null|UnitEnum $navigationGroup = 'دسته‌ها';
+
+    protected static ?int $navigationSort = 2;
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Texture Types');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Texture Type');
+    }
 
     public static function form(Schema $schema): Schema
     {

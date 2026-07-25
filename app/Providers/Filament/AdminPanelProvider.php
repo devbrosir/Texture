@@ -70,7 +70,10 @@ final class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->viteTheme('resources/css/filament/admin/theme.css');
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->spa()
+            ->resourceEditPageRedirect('index')
+            ->resourceCreatePageRedirect('index');
     }
 
     public function boot(): void

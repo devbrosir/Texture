@@ -29,7 +29,7 @@ final class SceneForm
                     ->maxSize(4096)
                     ->acceptedFileTypes(['image/jpeg'])
                     ->columnSpanFull(),
-                Select::make('category_id')->label('دسته')
+                Select::make('category_id')->label('فضا')
                     ->required()
                     ->options(SceneCategory::query()->pluck('title', 'id'))
                     ->createOptionForm([

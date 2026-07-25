@@ -87,6 +87,11 @@ final class Part extends BaseModel implements HasMedia
             ])->all());
     }
 
+    protected function selectedTypes(): Attribute
+    {
+        return Attribute::make(get: fn (): array => $this->selected_types ?? []);
+    }
+
     protected function getVersionableFields(): array
     {
         return ['mask_config', 'type'];
