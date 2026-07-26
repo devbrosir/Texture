@@ -41,7 +41,7 @@ class UserService
     public function updateWPUser(User $user, array $data): void
     {
         $user->update([
-            'name' => $data['name'] ?? ($data['first_name'].$data['last_name']) ?? $data['display_name'],
+            'name' => $data['name'] ?? ($data['first_name'].' '.$data['last_name']) ?? $data['display_name'],
         ]);
     }
 

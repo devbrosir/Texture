@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Enums\ActivityType;
 use App\Models\Activity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ActivityService
 {
@@ -19,6 +20,9 @@ class ActivityService
         foreach ($items as &$item) {
             $item['user_id'] ??= auth()->id();
             $item['created_at'] ??= $now;
+            $item['related_type'] = isset($item['related_type']) ? 'App\\Models\\'.Str::pascal($item['related_type']) : null;
+            $item['related_id'] ??= null;
+            $item['metadata'] ??= null;
         }
         Activity::query()->fillAndInsert($items);
     }
