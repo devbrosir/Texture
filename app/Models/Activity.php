@@ -35,7 +35,7 @@ class Activity extends BaseModel
     public const null UPDATED_AT = null;
 
     protected $casts = [
-        'type' => ActivityType::class,
+//        'type' => ActivityType::class,
         'metadata' => 'array',
         'created_at' => 'datetime',
     ];
@@ -52,6 +52,6 @@ class Activity extends BaseModel
 
     protected function typeTitle(): Attribute
     {
-        return Attribute::make(get: fn (): string|array|null => $this->type->trans());
+        return Attribute::make(get: fn (): string|array|null => $this->type/*->trans()*/);
     }
 }
