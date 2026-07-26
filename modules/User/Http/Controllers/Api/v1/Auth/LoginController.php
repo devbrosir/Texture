@@ -8,7 +8,6 @@ use App\Enums\ActivityType;
 use App\Facades\ActivityLogger;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Modules\Auth\Enums\OtpChannel;
@@ -59,7 +58,7 @@ final class LoginController
     {
         $tempToken = $request->validated('token');
         try {
-            $response = Http::post(env('WP_URL').'/wp-json/sso/v1/verify', ['token' => $tempToken])
+            $response = Http::post(config('wordpress.base_url').'/wp-json/sso/v1/verify', ['token' => $tempToken])
                 ->json();
             $success = $response['success'] ?? false;
             if (! $success) {
@@ -67,11 +66,17 @@ final class LoginController
             }
             Log::debug('WordPress verify response: '.json_encode($response));
             $userData = $response['data'];
-            $user = $service->getByEmail($userData['email']);
+            $userAttrs = [
+                'wp_id' => $userData['id'],
+                'mobile' => '0'.((int) $userData['username']),
+                'name' => mb_trim(($userData['first_name'] ?? '').' '.($userData['last_name'] ?? '')),
+                'email' => $userData['email'] ?? null,
+            ];
+            $user = $service->getByMobile($userAttrs['mobile']);
             if ($user) {
-                $service->updateWPUser($user, Arr::only($userData, ['name', 'first_name', 'last_name', 'display_name']));
+                $service->updateWPUser($user, $userAttrs);
             } else {
-                $user = $service->createWPUser($userData);
+                $user = $service->createWPUser($userAttrs);
             }
 
             return Authenticator::loginUserAndIssueToken($user);

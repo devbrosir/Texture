@@ -18,12 +18,8 @@ class UserService
     public function createWPUser(array $data): User
     {
         return User::query()->create([
-            'name' => $data['name'] ?? ($data['first_name'].' '.$data['last_name']) ?? $data['display_name'],
-            'email' => $data['email'],
-            'mobile' => $data['mobile'] ?? null,
-            'wp_id' => $data['id'],
+            ...$data,
             'role' => Role::USER,
-            'password' => Hash::make($data['username']),
         ]);
     }
 
@@ -40,9 +36,7 @@ class UserService
 
     public function updateWPUser(User $user, array $data): void
     {
-        $user->update([
-            'name' => $data['name'] ?? ($data['first_name'].' '.$data['last_name']) ?? $data['display_name'],
-        ]);
+        $user->update($data);
     }
 
     public function userExists(array $conditions): bool
@@ -53,5 +47,10 @@ class UserService
     public function getByEmail(string $email): ?User
     {
         return User::query()->where('email', $email)->first();
+    }
+
+    public function getByMobile(string $mobile): ?User
+    {
+        return User::query()->where('mobile', $mobile)->first();
     }
 }

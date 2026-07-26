@@ -85,7 +85,7 @@ it('creates user when mobile does not exist', function (): void {
 
 it('login via wordpress', function (): void {
     Http::fake([
-        env('WP_URL').'/wp-json/sso/v1/verify' => Http::response([
+        config('wordpress.base_url').'/wp-json/sso/v1/verify' => Http::response([
             'success' => true,
             'data' => [
                 'id' => 12,
