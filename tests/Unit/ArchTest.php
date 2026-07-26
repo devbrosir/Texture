@@ -11,7 +11,6 @@ $baseModules = [
     'Modules\Base' => [],
     'Modules\Auth' => [],
     'Modules\Sms' => [],
-    'Modules\Upload' => [],
 ];
 
 $appModules = [

@@ -8,7 +8,6 @@ use App\Enums\RequestStatus;
 use App\Models\ProcessRequest;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Modules\Upload\Models\Dummy;
 use Modules\User\Models\User;
 
 use function Pest\Laravel\assertDatabaseHas;
@@ -30,18 +29,18 @@ it('stores a new process request successfully', function (): void {
     $user = User::factory()->create();
     Storage::fake('public');
     $file = UploadedFile::fake()->image('img.jpg');
-    $media = Dummy::instance()->addMedia($file)->toMediaCollection('temp');
 
     $data = [
         'description' => 'Test description',
-        'images' => [$media->uuid],
+        'image' => $file,
     ];
 
     withUser($user)
-        ->postJson('/api/v1/requests', $data)
+        ->post('/api/v1/requests', $data)
+        ->assertOk()
         ->assertJsonStructure([
             'data' => [
-                'description', 'images', 'user_id',
+                'description', 'image', 'user_id',
             ],
         ])
         ->assertOk();

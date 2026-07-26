@@ -20,7 +20,7 @@ final class ProcessRequestForm
         return $schema
             ->components([
                 ImageEntry::make('image')->label('تصویر')
-                    ->defaultImageUrl(fn (ProcessRequest $record): string => $record->getFirstMediaUrl(ProcessRequest::IMAGES))
+                    ->defaultImageUrl(fn (ProcessRequest $record): string => $record->image)
                     ->imageSize('30%')
                     ->alignCenter()
                     ->columnSpanFull(),

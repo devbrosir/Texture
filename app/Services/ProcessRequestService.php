@@ -7,20 +7,20 @@ namespace App\Services;
 use App\Enums\ActivityType;
 use App\Facades\ActivityLogger;
 use App\Models\ProcessRequest;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Modules\Upload\Services\FileService;
 
 class ProcessRequestService
 {
-    public function store(array $fields, array $images): ProcessRequest
+    public function store(array $fields, UploadedFile $image): ProcessRequest
     {
         $fields['user_id'] = auth()->id();
-        DB::transaction(function () use (&$processRequest, $fields, $images): void {
+        DB::transaction(function () use (&$processRequest, $fields, $image): void {
             $processRequest = ProcessRequest::query()->create($fields);
-            new FileService()->assignFiles($images, $processRequest, ProcessRequest::IMAGES);
+            $processRequest->addMedia($image)->toMediaCollection(ProcessRequest::IMAGE);
         });
         ActivityLogger::log(ActivityType::SEND_REQUEST, $processRequest);
 
-        return $processRequest->refresh()->append('images');
+        return $processRequest->refresh()->append('image');
     }
 }

@@ -23,7 +23,7 @@ final class ProcessRequestsTable
                     ->state(fn (ProcessRequest $record) => $record->user->name)
                     ->searchable(),
                 ImageColumn::make('image')->label('تصویر')
-                    ->defaultImageUrl(fn (ProcessRequest $record): string => $record->getFirstMediaUrl(ProcessRequest::IMAGES)),
+                    ->defaultImageUrl(fn (ProcessRequest $record): string => $record->image),
                 TextColumn::make('mobile')->label('موبایل')
                     ->state(fn (ProcessRequest $record) => $record->user->mobile)
                     ->searchable(),

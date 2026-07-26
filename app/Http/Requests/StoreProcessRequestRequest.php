@@ -27,7 +27,7 @@ final class StoreProcessRequestRequest extends FormRequest
     {
         return [
             'description' => ['nullable', 'string', 'max:2048'],
-            'images' => ['required', 'array', 'min:1', 'max:10', new ExistAll('media', 'uuid', 'uuid')],
+            'image' => ['required', 'file', 'max:2048'],
         ];
     }
 }

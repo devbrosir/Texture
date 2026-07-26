@@ -21,7 +21,7 @@ final class ProcessRequestController
 
     public function store(StoreProcessRequestRequest $request, ProcessRequestService $service): ProcessRequest
     {
-        return $service->store($request->safe()->except('images'), $request->array('images'));
+        return $service->store($request->safe()->except('image'), $request->file('image'));
     }
 
     public function cancel(ProcessRequest $processRequest): void

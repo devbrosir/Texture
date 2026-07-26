@@ -15,7 +15,6 @@ use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Providers\AuthModuleServiceProvider;
 use Modules\Base\Providers\BaseModuleServiceProvider;
 use Modules\Sms\Providers\SmsModuleServiceProvider;
-use Modules\Upload\Providers\UploadModuleServiceProvider;
 use Modules\User\Providers\UserModuleServiceProvider;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
@@ -26,7 +25,6 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->register(BaseModuleServiceProvider::class);
         $this->app->register(AuthModuleServiceProvider::class);
         $this->app->register(UserModuleServiceProvider::class);
-        $this->app->register(UploadModuleServiceProvider::class);
         $this->app->register(SmsModuleServiceProvider::class);
     }
 

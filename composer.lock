@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a53b04001a828386f4232d786d76083a",
+    "content-hash": "40232f591246805f8608c145e3270c00",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -734,39 +734,6 @@
                 }
             ],
             "description": "Sms basics",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "devbros/upload",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "../Base/modules/Upload",
-                "reference": "167a2f94448323f51954945b9285949cb90bb482"
-            },
-            "require": {
-                "illuminate/support": "^12.0",
-                "php": "^8.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Modules\\Upload\\": "."
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "mohammad",
-                    "email": "khodadadi.mohammad2@gmail.com"
-                }
-            ],
-            "description": "Upload basics",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -14744,8 +14711,7 @@
     "stability-flags": {
         "devbros/auth": 20,
         "devbros/base": 20,
-        "devbros/sms": 20,
-        "devbros/upload": 20
+        "devbros/sms": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

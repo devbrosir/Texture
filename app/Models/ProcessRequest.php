@@ -25,7 +25,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string|null $description
  * @property-read Carbon $created_at
  * @property-read User $user
- * @property-read Collection<Media> $images
+ * @property-read Media $image
  */
 final class ProcessRequest extends BaseModel implements HasMedia
 {
@@ -35,12 +35,14 @@ final class ProcessRequest extends BaseModel implements HasMedia
     use InteractsWithMedia;
 
     // collection name
-    public const string IMAGES = 'images';
+    public const string IMAGE = 'image';
 
     protected $casts = [
         'status' => RequestStatus::class,
         'processed_at' => 'datetime',
     ];
+
+    protected $hidden = ['media'];
 
     public static function booted(): void
     {
@@ -66,8 +68,8 @@ final class ProcessRequest extends BaseModel implements HasMedia
         return __('request no. :param', ['param' => $this->id]);
     }
 
-    protected function images(): Attribute
+    protected function image(): Attribute
     {
-        return Attribute::get(fn (): MediaCollection => $this->getMedia(self::IMAGES));
+        return Attribute::get(fn (): ?string => $this->getFirstMediaUrl(self::IMAGE));
     }
 }

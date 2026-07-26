@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Modules\Upload\Support\UuidPathGenerator;
+use App\Support\UuidPathGenerator;
 use Spatie\ImageOptimizer\Optimizers\Avifenc;
 use Spatie\ImageOptimizer\Optimizers\Cwebp;
 use Spatie\ImageOptimizer\Optimizers\Gifsicle;
