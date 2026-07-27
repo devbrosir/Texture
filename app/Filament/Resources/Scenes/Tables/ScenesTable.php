@@ -21,7 +21,7 @@ final class ScenesTable
             ->columns([
                 TextColumn::make('title')->label('نام')->searchable(),
                 ToggleColumn::make('active')->label('وضعیت'),
-                TextColumn::make('parts_count')->label('تعداد بخش ها')
+                TextColumn::make('parts_count')->label('تعداد بخش‌ها')
                     ->state(fn (Scene $record) => $record->parts_count),
                 TextColumn::make('category.title')->label('دسته بندی'),
                 TextColumn::make('created_at')->label('زمان ایجاد')

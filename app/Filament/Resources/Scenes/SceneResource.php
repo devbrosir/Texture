@@ -32,7 +32,7 @@ final class SceneResource extends Resource
 
     public static function getPluralLabel(): string
     {
-        return 'محیط ها';
+        return 'محیط‌ها';
     }
 
     public static function form(Schema $schema): Schema

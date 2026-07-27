@@ -31,7 +31,7 @@ class ActivityResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'فعالیت های کاربران';
+        return 'فعالیت‌های کاربران';
     }
 
     public static function infolist(Schema $schema): Schema

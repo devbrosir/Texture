@@ -27,7 +27,7 @@ final class ProcessRequestResource extends Resource
 
     protected static ?string $modelLabel = 'درخواست';
 
-    protected static ?string $pluralModelLabel = 'درخواست ها';
+    protected static ?string $pluralModelLabel = 'درخواست‌ها';
 
     public static function form(Schema $schema): Schema
     {

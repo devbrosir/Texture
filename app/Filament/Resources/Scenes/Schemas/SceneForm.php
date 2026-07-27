@@ -22,7 +22,7 @@ final class SceneForm
         return $schema
             ->components([
                 TextInput::make('title')->label('نام محیط')->required(),
-                TagsInput::make('tags')->label('تگ ها'),
+                TagsInput::make('tags')->label('تگ‌ها'),
                 SpatieMediaLibraryFileUpload::make('image')->label('تصویر (فرمت jpg/jpeg)')
                     ->collection(Scene::IMAGE)
                     ->disk('public')
@@ -56,7 +56,7 @@ final class SceneForm
                     ->hiddenOn('edit')
                     ->color('warning')
                     ->extraAttributes(['style' => 'font-weight: bold;'])
-                    ->default('برای ایجاد بخش ها، ابتدا محیط را ذخیره کنید.'),
+                    ->default('برای ایجاد بخش‌ها، ابتدا محیط را ذخیره کنید.'),
             ]);
     }
 }

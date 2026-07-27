@@ -24,7 +24,7 @@ return [
     'alpha_dash' => 'گزینه :attribute باید تنها شامل حروف، اعداد، خط تیره و زیر خط باشد',
     'alpha_num' => 'گزینه :attribute باید تنها شامل حروف و اعداد باشد',
     'array' => 'گزینه :attribute باید آرایه باشد',
-    'ascii' => 'گزینه :attribute تنها میتواند شامل تک حرف، عدد یا نماد ها باشد. .',
+    'ascii' => 'گزینه :attribute تنها میتواند شامل تک حرف، عدد یا نمادها باشد. .',
     'before' => 'گزینه :attribute باید تاریخی قبل از :date باشد',
     'before_or_equal' => 'گزینه :attribute باید تاریخی مساوی یا قبل از :date باشد',
     'between' => [
@@ -102,8 +102,8 @@ return [
         'string' => 'گزینه :attribute نباید بزرگتر از :max کاراکتر باشد',
     ],
     'max_digits' => 'گزینه :attribute نباید بیشتر از :max رقم باشد',
-    'mimes' => 'گزینه :attribute باید دارای یکی از این فرمت ها باشد: :values',
-    'mimetypes' => 'گزینه :attribute باید دارای یکی از این فرمت ها باشد: :values',
+    'mimes' => 'گزینه :attribute باید دارای یکی از این فرمت‌ها باشد: :values',
+    'mimetypes' => 'گزینه :attribute باید دارای یکی از این فرمت‌ها باشد: :values',
     'min' => [
         'array' => 'گزینه :attribute باید حداقل :min آیتم داشته باشد',
         'file' => 'گزینه :attribute باید حداقل :min کیلوبایت باشد',
@@ -146,7 +146,7 @@ return [
     'required_with_all' => 'تکمیل گزینه :attribute زمانی که مقادیر :values درصد است الزامی می باشد',
     'required_without' => 'تکمیل گزینه :attribute زمانی که مقدار :values درصد نیست الزامی است',
     'required_without_all' => 'تکمیل گزینه :attribute زمانی که هیچ کدام از مقادیر :values درصد نیست الزامی است',
-    'same' => 'گزینه های :attribute و :other باید یکی باشند',
+    'same' => 'گزینه‌های :attribute و :other باید یکی باشند',
     'size' => [
         'array' => 'گزینه :attribute باید شامل :size آیتم باشد',
         'file' => 'گزینه :attribute باید :size کیلوبایت باشد',
