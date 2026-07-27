@@ -26,6 +26,7 @@ class ActivitiesTable
                 TextColumn::make('user.name')->label('کاربر')
                     ->searchable()
                     ->badge()
+                    ->default('مهمان')
                     ->url(function (Activity $activity): ?string {
                         if ($activity->user_id) {
                             return route('filament.admin.resources.users.view', ['record' => $activity->user_id]);
@@ -34,6 +35,7 @@ class ActivitiesTable
                         return null;
                     })
                     ->openUrlInNewTab(),
+                TextColumn::make('uuid')->label('شناسه منحصربفرد'),
                 TextColumn::make('typeTitle')->label('عملیات'),
                 TextColumn::make('related')->label('مربوط به')
                     ->state(fn (Activity $activity) => $activity->related?->title ?? $activity->related?->name ?? $activity->related?->getLabel() ?? '')

@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class ActivityService
 {
-    public function add(array $items): void
+    public function add(array $items, ?string $uuid = null): void
     {
         if (isset($items['type'])) {
             $items = [$items];
@@ -21,6 +21,7 @@ class ActivityService
             $relatedType = $item['related_type'] ?? null;
             $relatedType = $relatedType ? 'App\\Models\\'.Str::pascal(class_basename($relatedType)) : null;
             $item['user_id'] ??= auth()->id();
+            $item['uuid'] = $uuid;
             $item['created_at'] ??= $now;
             $item['related_type'] = $relatedType;
             $item['related_id'] ??= null;

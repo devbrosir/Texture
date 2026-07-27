@@ -27,10 +27,11 @@ final class BatchStoreActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'uuid' => ['required', 'uuid'],
             'activities' => ['required', 'array'],
             'activities.*' => ['required', 'array'],
             'activities.*.created_at' => ['required', 'date'],
-            'activities.*.type' => ['required'/*, new In(ActivityType::values())*/],
+            'activities.*.type' => ['required', new In(ActivityType::values())],
             'activities.*.related_id' => ['nullable', 'integer'],
             'activities.*.related_type' => ['nullable', 'string', 'max:255'],
             'activities.*.metadata' => ['nullable', 'array'],

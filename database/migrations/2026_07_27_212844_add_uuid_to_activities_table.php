@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique('users_email_unique');
+        Schema::table('activities', function (Blueprint $table): void {
+            $table->uuid()->after('user_id')->nullable();
         });
     }
 
@@ -23,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->unique('email');
+        Schema::table('activities', function (Blueprint $table): void {
+            $table->dropColumn('uuid');
         });
     }
 };

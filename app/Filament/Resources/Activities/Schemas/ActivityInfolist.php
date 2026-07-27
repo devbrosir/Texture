@@ -16,11 +16,14 @@ final class ActivityInfolist
         return $schema
             ->components([
                 TextEntry::make('user.name')->label('کاربر')
+                    ->default('مهمان'),
+                TextEntry::make('uuid')->label('شناسه منحصربفرد')
                     ->placeholder('-'),
                 TextEntry::make('typeTitle')->label('عملیات')
                     ->placeholder('-'),
                 TextEntry::make('related')->label('مربوط به')
                     ->state(fn (Activity $activity) => $activity->related?->title ?? $activity->related?->name ?? '')
+                    ->badge()
                     ->placeholder('-'),
                 TextEntry::make('created_at')->label('زمان')
                     ->state(fn (Activity $activity) => $activity->created_at?->toJalali()->format('Y/m/d - H:i:s'))

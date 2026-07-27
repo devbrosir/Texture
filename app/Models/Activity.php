@@ -18,6 +18,7 @@ use Modules\User\Models\User;
 /**
  * @property-read int $id
  * @property-read int | null $user_id
+ * @property-read string | null $uuid
  * @property-read ActivityType $type
  * @property-read int | null $related_id
  * @property-read string | null $related_type
@@ -35,7 +36,7 @@ class Activity extends BaseModel
     public const null UPDATED_AT = null;
 
     protected $casts = [
-//        'type' => ActivityType::class,
+        'type' => ActivityType::class,
         'metadata' => 'array',
         'created_at' => 'datetime',
     ];
@@ -52,6 +53,6 @@ class Activity extends BaseModel
 
     protected function typeTitle(): Attribute
     {
-        return Attribute::make(get: fn (): string|array|null => $this->type/*->trans()*/);
+        return Attribute::make(get: fn (): string|array|null => $this->type->trans());
     }
 }
