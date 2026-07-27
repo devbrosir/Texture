@@ -18,9 +18,11 @@ class ActivityService
         }
         $now = now();
         foreach ($items as &$item) {
+            $relatedType = $item['related_type'] ?? null;
+            $relatedType = $relatedType ? 'App\\Models\\'.Str::pascal(class_basename($relatedType)) : null;
             $item['user_id'] ??= auth()->id();
             $item['created_at'] ??= $now;
-            $item['related_type'] = isset($item['related_type']) ? 'App\\Models\\'.Str::pascal($item['related_type']) : null;
+            $item['related_type'] = $relatedType;
             $item['related_id'] ??= null;
             $item['metadata'] ??= null;
         }

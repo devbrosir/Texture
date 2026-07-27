@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Controllers\Api\v1\Auth;
 
-use App\Enums\ActivityType;
-use App\Facades\ActivityLogger;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Http;
@@ -45,8 +43,6 @@ final class LoginController
     {
         try {
             $otp = Authenticator::verifyOtp(OtpChannel::SMS, $request->mobile, $request->code);
-
-            ActivityLogger::log(ActivityType::LOGIN_BY_OTP, $otp->user, $otp->user_id);
 
             return Authenticator::loginUserAndIssueToken($otp->user);
         } catch (InvalidOtpException) {
