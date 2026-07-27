@@ -60,12 +60,10 @@ class TextureForm
                     ])
                     ->createOptionUsing(fn (array $data) => TextureCategory::query()->create($data)->id),
 
-                TextInput::make('color')->label('رنگ')
-                    ->required(),
+                TextInput::make('color')->label('رنگ'),
                 TagsInput::make('tags')->label('تگ ها')
                     ->hint('مثلا جنس متریال مثل کاغذ، رنگ، پارکت و هر مورد دیگر')
-                    ->distinctList()
-                    ->required(),
+                    ->distinctList(),
                 TextInput::make('product_url')->label('آدرس محصول مرتبط'),
                 SpatieMediaLibraryFileUpload::make('texture_image')
                     ->label('تصویر تکسچر')

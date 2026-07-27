@@ -6,7 +6,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Modules\Base\Rules\ExistAll;
 
 final class StoreProcessRequestRequest extends FormRequest
 {

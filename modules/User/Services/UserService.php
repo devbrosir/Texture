@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\User\Services;
 
-use Illuminate\Support\Facades\Hash;
 use Modules\User\Enums\Role;
 use Modules\User\Models\User;
 
