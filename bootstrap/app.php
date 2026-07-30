@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Modules\Auth\Http\Middleware\SanctumMiddleware;
 use Modules\Base\Http\Middleware\ForceJsonResponse;
 use Modules\Base\Http\Middleware\FormatApiResponse;
 
@@ -27,23 +27,10 @@ return Application::configure(basePath: dirname(__DIR__))
             FormatApiResponse::class,
         ])->statefulApi();
 
+        $middleware->alias([
+            'auth.sanctum' => SanctumMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->render(function (QueryException $e, $request) {
-            dd($e);
-            if (
-                $e->getCode() === '23000' &&
-                str_contains($e->getMessage(), 'FOREIGN KEY')
-            ) {
-                if ($request->expectsJson()) {
-                    return response()->json([
-                        'message' => 'امکان حذف این مورد وجود ندارد زیرا اطلاعات وابسته دارد.',
-                    ], 422);
-                }
-
-                return back()->with('error', 'امکان حذف این مورد وجود ندارد زیرا اطلاعات وابسته دارد.');
-            }
-
-            return null;
-        });
+        //
     })->create();

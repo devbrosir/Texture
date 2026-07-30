@@ -23,7 +23,8 @@ Route::prefix('v1')->group(function (): void {
             ->name('process-requests.cancel');
     });
 
-    Route::post('activities', [ActivityController::class, 'batchStore'])->name('activity.batch-store');
+    Route::post('activities', [ActivityController::class, 'batchStore'])
+        ->middleware('auth.sanctum:optional')->name('activity.batch-store');
     Route::get('scene-categories', [SceneCategoryController::class, 'index'])->name('scene-categories.index');
     Route::resource('scenes', SceneController::class)->only(['index', 'show']);
     Route::get('textures', [TextureController::class, 'index'])->name('textures.index');
