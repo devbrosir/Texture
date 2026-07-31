@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Users\Tables;
 
 use Carbon\CarbonImmutable;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Modules\User\Enums\Role;
-use Modules\User\Enums\UserStatus;
 
 class UsersTable
 {
