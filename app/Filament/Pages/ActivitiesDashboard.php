@@ -57,6 +57,17 @@ class ActivitiesDashboard extends Page
         ];
     }
 
+    public function getChartData(): array
+    {
+        $dates = $this->getDateRange();
+
+        return [
+            'daily' => $this->getDailyActivities($dates),
+            'dailyLabels' => $this->getDailyActivitiesLabels($dates),
+            'overview' => $this->getActivitiesOverview($dates),
+        ];
+    }
+
     public function getHeaderActions(): array
     {
         return [

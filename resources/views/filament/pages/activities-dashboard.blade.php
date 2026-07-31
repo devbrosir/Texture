@@ -181,37 +181,24 @@
                 return {
                     dailyChartInstance: null,
                     distributionChartInstance: null,
-                    chartData: null,
+                    chartData: {
+                        daily: {},
+                        dailyLabels: [],
+                        overview: {}
+                    },
 
                     initCharts() {
-                        // Get initial data from Livewire
-                        this.chartData = {
-                            daily: @json($dailyActivities),
-                            dailyLabels: @json($dailyActivitiesLabels),
-                            overview: @json($activitiesOverview)
-                        };
-
-                        // Initialize charts after a small delay to ensure DOM is ready
-                        setTimeout(() => {
-                            this.renderCharts();
-                        }, 100);
+                        this.refreshCharts()
                     },
 
                     refreshCharts() {
-                        // Get fresh data from Livewire
-                        this.chartData = {
-                            daily: @json($dailyActivities),
-                            dailyLabels: @json($dailyActivitiesLabels),
-                            overview: @json($activitiesOverview)
-                        };
-
-                        // Destroy existing charts
-                        this.destroyCharts();
-
-                        // Re-render charts
-                        setTimeout(() => {
-                            this.renderCharts();
-                        }, 100);
+                        @this.call('getChartData').then(data => {
+                            this.chartData = data;
+                            this.destroyCharts();
+                            setTimeout(() => {
+                                this.renderCharts();
+                            }, 100);
+                        });
                     },
 
                     renderCharts() {
@@ -238,6 +225,11 @@
                         const dailyData = this.chartData.daily || {};
                         const labels = this.chartData.dailyLabels || Object.keys(dailyData);
                         const values = Object.values(dailyData);
+
+                        if (values.length === 0 || values.every(v => v === 0)) {
+                            this.showEmptyState('dailyChart', 'هیچ فعالیتی در این بازه وجود ندارد');
+                            return;
+                        }
 
                         this.dailyChartInstance = new Chart(ctx, {
                             type: 'line',
@@ -315,6 +307,20 @@
                         const labels = Object.keys(overviewData);
                         const values = Object.values(overviewData);
 
+                        // فیلتر مقادیر صفر
+                        const filteredData = labels.map((label, index) => ({
+                            label: label,
+                            value: values[index]
+                        })).filter(item => item.value > 0);
+
+                        if (filteredData.length === 0) {
+                            this.showEmptyState('distributionChart', 'هیچ فعالیتی در این بازه وجود ندارد');
+                            return;
+                        }
+
+                        const filteredLabels = filteredData.map(item => item.label);
+                        const filteredValues = filteredData.map(item => item.value);
+
                         const colors = [
                             '#3b82f6', '#10b981', '#8b5cf6', '#f59e0b',
                             '#ef4444', '#06b6d4', '#f472b6', '#6366f1',
@@ -324,10 +330,10 @@
                         this.distributionChartInstance = new Chart(ctx, {
                             type: 'doughnut',
                             data: {
-                                labels: labels,
+                                labels: filteredLabels,
                                 datasets: [{
-                                    data: values,
-                                    backgroundColor: colors.slice(0, labels.length),
+                                    data: filteredValues,
+                                    backgroundColor: colors.slice(0, filteredLabels.length),
                                     borderWidth: 2,
                                     borderColor: '#ffffff',
                                     hoverOffset: 8,
@@ -363,6 +369,36 @@
                                 }
                             }
                         });
+                    },
+
+                    showEmptyState(canvasId, message) {
+                        const canvas = document.getElementById(canvasId);
+                        if (!canvas) return;
+
+                        const parent = canvas.parentElement;
+                        const oldEmpty = parent.querySelector('.empty-state');
+                        if (oldEmpty) {
+                            oldEmpty.remove();
+                        }
+
+                        const emptyDiv = document.createElement('div');
+                        emptyDiv.className = 'empty-state absolute inset-0 flex items-center justify-center text-gray-500 dark:text-gray-400 text-sm';
+                        emptyDiv.textContent = message;
+                        parent.style.position = 'relative';
+                        parent.appendChild(emptyDiv);
+                        canvas.style.display = 'none';
+                    },
+
+                    clearEmptyState(canvasId) {
+                        const canvas = document.getElementById(canvasId);
+                        if (!canvas) return;
+
+                        const parent = canvas.parentElement;
+                        const empty = parent.querySelector('.empty-state');
+                        if (empty) {
+                            empty.remove();
+                        }
+                        canvas.style.display = 'block';
                     }
                 };
             }
