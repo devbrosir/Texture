@@ -17,7 +17,7 @@ final class AdminUserSeeder extends Seeder
     {
         User::query()->create([
             'name' => 'Mr Bavandi',
-            'email' => 'admin@zaminstudio.ir',
+            'email' => 'info@zaminstudio.ir',
             'mobile' => null,
             'role' => Role::ADMIN->value,
             'password' => 'zamin',

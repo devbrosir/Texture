@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Activities\Tables;
 
+use App\Enums\ActivityType;
 use App\Models\Activity;
+use App\Models\Banner;
+use App\Models\Part;
+use App\Models\Scene;
+use App\Models\SceneCategory;
+use App\Models\Texture;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
@@ -26,17 +32,11 @@ class ActivitiesTable
                 TextColumn::make('user.name')->label('کاربر')
                     ->searchable()
                     ->badge()
-                    ->default('مهمان')
-                    ->url(function (Activity $activity): ?string {
-                        if ($activity->user_id) {
-                            return route('filament.admin.resources.users.view', ['record' => $activity->user_id]);
-                        }
-
-                        return null;
-                    })
-                    ->openUrlInNewTab(),
-                TextColumn::make('uuid')->label('شناسه منحصربفرد'),
-                TextColumn::make('typeTitle')->label('عملیات'),
+                    ->default('مهمان'),
+                TextColumn::make('uuid')->label('شناسه منحصربفرد')
+                    ->searchable(),
+                TextColumn::make('typeTitle')->label('عملیات')
+                    ->searchable(),
                 TextColumn::make('related')->label('مربوط به')
                     ->state(fn (Activity $activity) => $activity->related?->title ?? $activity->related?->name ?? $activity->related?->getLabel() ?? '')
                     ->url(function (Activity $activity): ?string {
@@ -67,10 +67,31 @@ class ActivitiesTable
                     ->toggleable(),
             ])
             ->filters([
-                SelectFilter::make('user_id')->label('کاربر')->searchable()->options(
-                    User::query()->pluck('name', 'id')
-                ),
+                // User filter
+                SelectFilter::make('user_id')->label('کاربر')
+                    ->searchable()
+                    ->options(
+                        User::query()->pluck('name', 'id')
+                    ),
+
+                // Activity type filter with categories
+                SelectFilter::make('type')->label('نوع فعالیت')
+                    ->multiple()
+                    ->options(ActivityType::toOptions())
+                    ->searchable(),
+
+                // Related type filter
+                SelectFilter::make('related_type')->label('نوع مرتبط')
+                    ->options([
+                        Scene::class => 'محیط',
+                        Texture::class => 'تکسچر',
+                        SceneCategory::class => 'دسته‌بندی محیط',
+                        Banner::class => 'بنر',
+                        Part::class => 'بخش',
+                    ])
+                    ->searchable(),
             ])
+            ->filtersFormWidth('3xl')
             ->recordActions([
                 ViewAction::make()->label('جزئیات'),
             ])
@@ -78,6 +99,9 @@ class ActivitiesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc')
+            ->persistFiltersInSession()
+            ->poll('10s');
     }
 }
