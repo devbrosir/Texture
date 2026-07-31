@@ -260,7 +260,7 @@ class ActivitiesDashboard extends Page
             $key = $current->format('Y-m-d');
             $dayKeys[$i] = $key;
             $days[$key] = 0;
-            $current->addDay();
+            $current = $current->addDay();
         }
 
         // کوئری دیتابیس
@@ -306,7 +306,7 @@ class ActivitiesDashboard extends Page
                 // در صورت خطا، از تاریخ میلادی استفاده کن
                 $labels[] = $current->format('d M');
             }
-            $current->addDay();
+            $current = $current->addDay();
         }
 
         return $labels;
