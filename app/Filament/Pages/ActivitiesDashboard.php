@@ -10,6 +10,7 @@ use App\Models\Scene;
 use App\Models\SceneCategory;
 use App\Models\Texture;
 use BackedEnum;
+use Exception;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Pages\Page;
@@ -241,15 +242,28 @@ class ActivitiesDashboard extends Page
 
     protected function getDailyActivities(array $dates): array
     {
+        // محاسبه تعداد روزها
+        $daysCount = $dates['start']->diffInDays($dates['end']) + 1;
+
+        // اگر تعداد روزها بیشتر از 90 بود، محدود کن
+        if ($daysCount > 90) {
+            $dates['start'] = $dates['end']->copy()->subDays(90);
+            $daysCount = 91;
+        }
+
         $days = [];
         $current = $dates['start']->copy();
 
-        while ($current <= $dates['end']) {
-            $dayKey = $current->format('Y-m-d');
-            $days[$dayKey] = 0;
+        // استفاده از array با کلیدهای عددی برای سرعت بیشتر
+        $dayKeys = [];
+        for ($i = 0; $i < $daysCount; $i++) {
+            $key = $current->format('Y-m-d');
+            $dayKeys[$i] = $key;
+            $days[$key] = 0;
             $current->addDay();
         }
 
+        // کوئری دیتابیس
         $activities = Activity::query()
             ->whereBetween('created_at', [$dates['start'], $dates['end']])
             ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as total'))
@@ -258,8 +272,9 @@ class ActivitiesDashboard extends Page
             ->pluck('total', 'date')
             ->toArray();
 
-        foreach ($days as $day => &$count) {
-            $count = $activities[$day] ?? 0;
+        // مقداردهی
+        foreach ($dayKeys as $key) {
+            $days[$key] = $activities[$key] ?? 0;
         }
 
         return $days;
@@ -273,15 +288,24 @@ class ActivitiesDashboard extends Page
         $labels = [];
         $current = $dates['start']->copy();
 
-        while ($current <= $dates['end']) {
-            // Convert to Jalali date
-            $jalali = $current->toJalali();
+        // محاسبه تعداد روزها
+        $daysCount = $dates['start']->diffInDays($dates['end']) + 1;
 
-            // Format: "25 تیر" or "01 مرداد"
-            $day = $jalali->format('d');
-            $month = $jalali->format('F');
-            $labels[] = $day.' '.$month;
+        // اگر تعداد روزها بیشتر از 90 بود، محدود کن
+        if ($daysCount > 90) {
+            $current = $dates['end']->copy()->subDays(90);
+            $daysCount = 91;
+        }
 
+        // استفاده از حلقه for به جای while برای سرعت بیشتر
+        for ($i = 0; $i < $daysCount; $i++) {
+            try {
+                $jalali = $current->toJalali();
+                $labels[] = $jalali->format('d').' '.$jalali->format('F');
+            } catch (Exception) {
+                // در صورت خطا، از تاریخ میلادی استفاده کن
+                $labels[] = $current->format('d M');
+            }
             $current->addDay();
         }
 

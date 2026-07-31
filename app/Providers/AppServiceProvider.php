@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 use Modules\Auth\Providers\AuthModuleServiceProvider;
 use Modules\Base\Providers\BaseModuleServiceProvider;
 use Modules\Sms\Providers\SmsModuleServiceProvider;
@@ -33,6 +34,10 @@ final class AppServiceProvider extends ServiceProvider
         $this->bootModelsDefaults();
         $this->bootSettings();
         Event::listen(MediaHasBeenAddedEvent::class, GenerateCustomMediaConversion::class);
+        Password::defaults(fn () => Password::min(12)
+            ->mixedCase()
+            ->numbers()
+            ->symbols());
     }
 
     private function bootModelsDefaults(): void
