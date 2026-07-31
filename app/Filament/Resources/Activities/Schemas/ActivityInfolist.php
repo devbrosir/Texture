@@ -17,7 +17,7 @@ final class ActivityInfolist
             ->components([
                 TextEntry::make('user.name')->label('کاربر')
                     ->default('مهمان'),
-                TextEntry::make('uuid')->label('شناسه منحصربفرد')
+                TextEntry::make('uuid')->label('شناسه منحصربفرد کاربر')
                     ->placeholder('-'),
                 TextEntry::make('typeTitle')->label('عملیات')
                     ->placeholder('-'),

@@ -41,7 +41,7 @@ class TextureForm
                     ->createOptionUsing(fn (array $data) => TextureType::query()->create($data)->id),
 
                 Select::make('category_id')
-                    ->label('دسته تکسچر')
+                    ->label('زیردسته تکسچر')
                     ->options(fn (Get $get) => TextureCategory::query()
                         ->when(
                             $get('type_id'),

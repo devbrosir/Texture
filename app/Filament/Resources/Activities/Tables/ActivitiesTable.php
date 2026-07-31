@@ -33,10 +33,22 @@ class ActivitiesTable
                     ->searchable()
                     ->badge()
                     ->default('مهمان'),
-                TextColumn::make('uuid')->label('شناسه منحصربفرد')
+                TextColumn::make('uuid')->label('شناسه منحصربفرد کاربر')
                     ->searchable(),
                 TextColumn::make('typeTitle')->label('عملیات')
-                    ->searchable(),
+                    ->searchable(
+                        query: function ($query, string $search) {
+                            $types = collect(ActivityType::cases())
+                                ->filter(fn ($case) => str_contains(
+                                    mb_strtolower($case->trans()),
+                                    mb_strtolower($search)
+                                ))
+                                ->map(fn ($case) => $case->value)
+                                ->all();
+
+                            $query->whereIn('type', $types);
+                        }
+                    ),
                 TextColumn::make('related')->label('مربوط به')
                     ->state(fn (Activity $activity) => $activity->related?->title ?? $activity->related?->name ?? $activity->related?->getLabel() ?? '')
                     ->url(function (Activity $activity): ?string {
