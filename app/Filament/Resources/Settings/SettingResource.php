@@ -28,6 +28,8 @@ final class SettingResource extends Resource
 
     public static ?string $pluralModelLabel = 'تنظیمات';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Schema $schema): Schema
     {
         return SettingForm::configure($schema);

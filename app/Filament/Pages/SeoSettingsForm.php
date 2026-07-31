@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Settings\Schemas;
+namespace App\Filament\Pages;
 
 use Filament\Forms\Components\CodeEditor;
 use Filament\Forms\Components\CodeEditor\Enums\Language;
@@ -11,7 +11,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Group;
 
-final class SeoModalForm
+final class SeoSettingsForm
 {
     public static function scheme(): array
     {
@@ -38,7 +38,6 @@ final class SeoModalForm
                 ]),
 
             Group::make()
-//                ->label('Open Graph')
                 ->schema([
                     TextInput::make('og.title')->label('OG Title'),
                     Textarea::make('og.description')->label('OG Description'),
@@ -46,7 +45,6 @@ final class SeoModalForm
                 ]),
 
             Group::make()
-//                ->label('Twitter Card')
                 ->schema([
                     Select::make('twitter.card')
                         ->options([
@@ -58,7 +56,6 @@ final class SeoModalForm
                 ]),
 
             Group::make()
-//                ->label('Structured Data (JSON-LD)')
                 ->schema([
                     Select::make('schema.type')
                         ->label('Schema Type')

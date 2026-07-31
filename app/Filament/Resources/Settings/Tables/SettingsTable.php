@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Settings\Tables;
 
-use App\Filament\Resources\Settings\Schemas\SeoModalForm;
 use App\Models\Setting;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Modules\Base\Filament\Extend\JalaliTextColumn;
 
 final class SettingsTable
 {
@@ -23,10 +22,11 @@ final class SettingsTable
                     ->searchable(),
                 TextColumn::make('key')->label('کلید')
                     ->searchable(),
-                TextColumn::make('value')->label('مقدار')
-                    ->searchable(),
-                TextColumn::make('updated_at')->label('آخرین ویرایش')
-                    ->dateTime()
+                TextColumn::make('the_value')->label('مقدار')
+                    ->searchable()
+                    ->formatStateUsing(fn (Setting $setting) => $setting->show ? $setting->value : '...'),
+                JalaliTextColumn::make('updated_at')->label('آخرین ویرایش')
+                    ->jalaliDateTime()
                     ->sortable(),
             ])
             ->query(fn ($query) => Setting::query()->where('show', true))
@@ -40,14 +40,6 @@ final class SettingsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-                Action::make('seo')
-                    ->label('تنظیمات SEO')
-                    ->icon('heroicon-o-cog-6-tooth')
-                    ->modalHeading('تنظیمات متادیتا و SEO')
-                    ->modalWidth('3xl')
-                    ->schema(SeoModalForm::scheme())
-                    ->fillForm(Setting::get('seo'))
-                    ->action(fn (array $data) => Setting::updateValue($data, 'seo')),
             ]);
     }
 }
