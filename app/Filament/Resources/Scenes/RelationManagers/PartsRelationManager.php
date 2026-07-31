@@ -138,7 +138,7 @@ class PartsRelationManager extends RelationManager
                     ->label('حذف')
                     ->icon('heroicon-o-trash'),
             ])
-            ->emptyStateHeading('هیچ بخشی برای این محیط وجود ندارد')
+            ->emptyStateHeading('هیچ بخشی برای این فضا وجود ندارد')
             ->emptyStateDescription('برای شروع، اولین بخش را ایجاد کنید.')
             ->emptyStateIcon('heroicon-o-cube');
     }

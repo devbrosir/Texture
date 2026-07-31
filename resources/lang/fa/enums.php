@@ -20,7 +20,7 @@ return [
         'ClickLoginSso' => 'کلیک روی ورود قبلی',
 
         'SelectPart' => 'انتخاب بخش',
-        'SelectScene' => 'انتخاب محیط',
+        'SelectScene' => 'انتخاب فضا',
         'SelectTexture' => 'انتخاب تکسچر',
         'SelectSceneCategory' => 'انتخاب نوع کاربری',
 

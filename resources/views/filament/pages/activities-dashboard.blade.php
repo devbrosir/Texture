@@ -34,7 +34,7 @@
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">انتخاب فضا</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">انتخاب کاربری</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $mostSelectedSceneCategories ? array_sum(array_column($mostSelectedSceneCategories, 'count')) : 0 }}</p>
                     </div>
                     <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
@@ -50,7 +50,7 @@
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">انتخاب محیط</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">انتخاب فضا</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $mostSelectedScenes ? array_sum(array_column($mostSelectedScenes, 'count')) : 0 }}</p>
                     </div>
                     <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
@@ -120,7 +120,7 @@
 
             {{-- Most Selected Scene Categories --}}
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">فضاهای پرانتخاب</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">کاربری‌های پرانتخاب</h3>
                 <div class="space-y-3 max-h-80 overflow-y-auto">
                     @forelse($mostSelectedSceneCategories as $category)
                         <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
@@ -138,7 +138,7 @@
 
             {{-- Most Selected Scenes --}}
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">محیط‌های پرانتخاب</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">فضا‌های پرانتخاب</h3>
                 <div class="space-y-3 max-h-80 overflow-y-auto">
                     @forelse($mostSelectedScenes as $scene)
                         <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">

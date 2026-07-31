@@ -83,9 +83,9 @@ class ActivitiesTable
                 // Related type filter
                 SelectFilter::make('related_type')->label('نوع مرتبط')
                     ->options([
-                        Scene::class => 'محیط',
+                        Scene::class => 'فضا',
                         Texture::class => 'تکسچر',
-                        SceneCategory::class => 'دسته‌بندی محیط',
+                        SceneCategory::class => 'کاربری',
                         Banner::class => 'بنر',
                         Part::class => 'بخش',
                     ])

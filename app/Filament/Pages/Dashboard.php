@@ -36,8 +36,8 @@ class Dashboard extends Page
     {
         return [
             [
-                'title' => 'محیط‌ها',
-                'description' => 'مدیریت محیط‌ها و بخش‌ها',
+                'title' => 'فضاها',
+                'description' => 'مدیریت فضا‌ها و بخش‌ها',
                 'icon' => Heroicon::OutlinedRectangleStack,
                 'color' => 'blue',
                 'route' => 'filament.admin.resources.scenes.index',
@@ -59,8 +59,8 @@ class Dashboard extends Page
                 'route' => 'filament.admin.resources.texture-types.index',
             ],
             [
-                'title' => 'فضاها',
-                'description' => 'مدیریت دسته‌بندی محیط‌ها',
+                'title' => 'کاربری‌ها',
+                'description' => 'مدیریت کاربری فضاها',
                 'icon' => Heroicon::OutlinedFolder,
                 'color' => 'indigo',
                 'route' => 'filament.admin.resources.scene-categories.index',
@@ -113,7 +113,7 @@ class Dashboard extends Page
     {
         return [
             [
-                'label' => 'محیط‌ها',
+                'label' => 'فضاها',
                 'value' => Scene::query()->count(),
                 'icon' => Heroicon::OutlinedRectangleStack,
                 'color' => 'blue',

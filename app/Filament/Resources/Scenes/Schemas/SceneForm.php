@@ -21,7 +21,7 @@ final class SceneForm
     {
         return $schema
             ->components([
-                TextInput::make('title')->label('نام محیط')->required(),
+                TextInput::make('title')->label('نام فضا')->required(),
                 TagsInput::make('tags')->label('تگ‌ها'),
                 SpatieMediaLibraryFileUpload::make('image')->label('تصویر (فرمت jpg/jpeg)')
                     ->collection(Scene::IMAGE)
@@ -29,7 +29,7 @@ final class SceneForm
                     ->maxSize(4096)
                     ->acceptedFileTypes(['image/jpeg'])
                     ->columnSpanFull(),
-                Select::make('category_id')->label('فضا')
+                Select::make('category_id')->label('کاربری')
                     ->required()
                     ->options(SceneCategory::query()->pluck('title', 'id'))
                     ->createOptionForm([
@@ -56,7 +56,7 @@ final class SceneForm
                     ->hiddenOn('edit')
                     ->color('warning')
                     ->extraAttributes(['style' => 'font-weight: bold;'])
-                    ->default('برای ایجاد بخش‌ها، ابتدا محیط را ذخیره کنید.'),
+                    ->default('برای ایجاد بخش‌ها، ابتدا فضا را ذخیره کنید.'),
             ]);
     }
 }

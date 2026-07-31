@@ -207,9 +207,9 @@ class ActivitiesDashboard extends Page
     protected function getActivitiesOverview(array $dates): array
     {
         $types = [
-            'select_scene' => 'انتخاب محیط',
+            'select_scene' => 'انتخاب فضا',
             'select_texture' => 'انتخاب تکسچر',
-            'select_scene_category' => 'انتخاب فضا',
+            'select_scene_category' => 'انتخاب کاربری',
             'view_page' => 'مشاهده صفحه',
             'click_detail' => 'کلیک روی جزئیات',
             'download' => 'دانلود',

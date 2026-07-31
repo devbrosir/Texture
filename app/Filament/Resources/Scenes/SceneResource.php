@@ -27,12 +27,12 @@ final class SceneResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return 'محیط';
+        return 'فضا';
     }
 
     public static function getPluralLabel(): string
     {
-        return 'محیط‌ها';
+        return 'فضا‌ها';
     }
 
     public static function form(Schema $schema): Schema
