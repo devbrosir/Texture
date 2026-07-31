@@ -1,3 +1,6 @@
+<style>
+    .fi-page-main { padding-bottom: 2rem !important; }
+</style>
 <div class="p-2 fixed bottom-0 left-0 right-0 bg-white text-center text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
     <p class="flex items-center justify-center gap-2">
         طراحی و توسعه توسط
