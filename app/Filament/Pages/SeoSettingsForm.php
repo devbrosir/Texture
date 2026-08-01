@@ -6,6 +6,7 @@ namespace App\Filament\Pages;
 
 use Filament\Forms\Components\CodeEditor;
 use Filament\Forms\Components\CodeEditor\Enums\Language;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -41,7 +42,12 @@ final class SeoSettingsForm
                 ->schema([
                     TextInput::make('og.title')->label('OG Title'),
                     Textarea::make('og.description')->label('OG Description'),
-                    TextInput::make('og.image')->label('OG Image URL'),
+                    FileUpload::make('og.image')->label('OG Image')
+                        ->image()
+                        ->disk('public')
+                        ->directory('seo')
+                        ->imagePreviewHeight('150')
+                        ->maxSize(2048),
                 ]),
 
             Group::make()
